@@ -1,0 +1,22 @@
+{
+  "name": "gmcadmin",
+  "version": "0.0.1",
+  "description": "Go Memcached Admin",
+  "homepage": "http://github.com/codeb2cc/gmcadmin",
+  "author": {
+    "name": "Codeb Fan",
+    "email": "codeb2cc@gmail.com",
+    "url": "http://codeb2cc.com"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-jshint": "~0.6.2",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-uglify": "~0.2.2",
+    "grunt-contrib-watch": "~0.5.1",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-connect": "~0.3.0",
+    "grunt-recess": "~0.3.3"
+  }
+}

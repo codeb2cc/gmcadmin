@@ -1,0 +1,7 @@
+*.swp
+
+test-results/
+tmp/
+routes/
+public/node_modules
+public/dist
