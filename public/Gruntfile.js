@@ -35,6 +35,7 @@ module.exports = function(grunt) {
           { expand: true, cwd: 'src/', src: '*.{ico,txt}', dest: 'dist/' },
           { src: 'src/lib/modernizr/modernizr-2.6.2.js', dest: 'dist/js/modernizr.js' },
           { src: 'src/lib/jquery/jquery-2.0.3.js', dest: 'dist/js/jquery.js' },
+          { src: 'src/lib/angular/angular.js', dest: 'dist/js/angular.js' },
           { expand: true, cwd: 'src/lib/bootstrap/', src: ['fonts/**'], dest: 'dist/' }
         ]
       },
@@ -44,6 +45,8 @@ module.exports = function(grunt) {
           { src: 'src/lib/modernizr/modernizr-2.6.2.min.js', dest: 'dist/js/modernizr.js' },
           { src: 'src/lib/jquery/jquery-2.0.3.min.js', dest: 'dist/js/jquery.js' },
           { src: 'src/lib/jquery/jquery-2.0.3.min.map', dest: 'dist/js/jquery.min.map' },
+          { src: 'src/lib/angular/angular.min.js', dest: 'dist/js/angular.js' },
+          { src: 'src/lib/angular/angular.min.js.map', dest: 'dist/js/angular.js.map' },
           { expand: true, cwd: 'src/lib/bootstrap/', src: ['fonts/**'], dest: 'dist/' }
         ]
       }
