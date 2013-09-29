@@ -13,11 +13,126 @@
 
     <script src="/public/js/modernizr.js"></script>
   </head>
-  <body class="gmca">
+  <body>
     {{template "header.html" .}}
     <div class="container">
       <div class="row">
-        <h1>Hello World!</h1>
+        <div class="col-md-4">
+          <div class="widget widget-table">
+            <div class="widget-header">
+              <span class="glyphicon glyphicon-info-sign"></span>
+              <h3>Stats</h3>
+            </div>
+            <div class="widget-content">
+              <table class="table table-bordered table-striped">
+                <tbody>
+                  <tr>
+                    <td>Uptime</td>
+                    <td>14 days 16 hrs 36 min</td>
+                  </tr>
+                  <tr>
+                    <td>Memcached</td>
+                    <td>Version 1.4.15</td>
+                  </tr>
+                  <tr>
+                    <td>Total Connections</td>
+                    <td>217</td>
+                  </tr>
+                  <tr>
+                    <td>Total Items</td>
+                    <td>45</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="widget widget-table">
+            <div class="widget-header">
+              <span class="glyphicon glyphicon-export"></span>
+              <h3>Eviction & Reclaimed</h3>
+            </div>
+            <div class="widget-content">
+              <table class="table table-bordered table-striped">
+                <tbody>
+                  <tr>
+                    <td>Items Eviction</td>
+                    <td>0</td>
+                  </tr>
+                  <tr>
+                    <td>Eviction Rate</td>
+                    <td>0 Eviction/sec</td>
+                  </tr>
+                  <tr>
+                    <td>Reclaimed</td>
+                    <td>0</td>
+                  </tr>
+                  <tr>
+                    <td>Reclaimed Rate</td>
+                    <td>0 Reclaimed/sec</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="widget widget-table">
+            <div class="widget-header">
+              <span class="glyphicon glyphicon-cog"></span>
+              <h3>Configuration</h3>
+            </div>
+            <div class="widget-content">
+              <table class="table table-bordered table-striped">
+                <tbody>
+                  <tr>
+                    <td>Max Bytes</td>
+                    <td>64.0 MBytes</td>
+                  </tr>
+                  <tr>
+                    <td>Max Connections</td>
+                    <td>1024</td>
+                  </tr>
+                  <tr>
+                    <td>Chunk Size</td>
+                    <td>48</td>
+                  </tr>
+                  <tr>
+                    <td>Chunk Growth Factor</td>
+                    <td>1.25</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="widget widget-stats">
+            <div class="widget-content">
+              <div class="stats-container big">
+                <div class="stat">
+                  <h4>Connections</h4>
+                  <span class="value">100</span>
+                </div>
+                <div class="stat">
+                  <h4>Items</h4>
+                  <span class="value">300</span>
+                </div>
+                <div class="stat">
+                  <h4>Used</h4>
+                  <span class="value">8.0 G</span>
+                </div>
+                <div class="stat">
+                  <h4>Wasted</h4>
+                  <span class="value">2.3 G</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <hr>
       {{template "footer.html" .}}
