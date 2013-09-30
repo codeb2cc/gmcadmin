@@ -1,0 +1,6 @@
+{
+  "globalstrict": true,
+  "browser": true,
+  "jquery": true,
+  "globals": { "angular": true }
+}
