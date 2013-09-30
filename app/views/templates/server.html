@@ -10,19 +10,19 @@
           <tbody>
             <tr>
               <td>Uptime</td>
-              <td>14 days 16 hrs 36 min</td>
+              <td ng-bind="serverStats.Uptime"></td>
             </tr>
             <tr>
               <td>Memcached</td>
-              <td>Version 1.4.15</td>
+              <td ng-bind="serverStats.Version"></td>
             </tr>
             <tr>
               <td>Total Connections</td>
-              <td>217</td>
+              <td ng-bind="serverStats.TotalConnections"></td>
             </tr>
             <tr>
               <td>Total Items</td>
-              <td>45</td>
+              <td ng-bind="serverStats.TotalItems"></td>
             </tr>
           </tbody>
         </table>
@@ -40,19 +40,19 @@
           <tbody>
             <tr>
               <td>Items Eviction</td>
-              <td>0</td>
+              <td ng-bind="serverStats.Evictions"></td>
             </tr>
             <tr>
               <td>Eviction Rate</td>
-              <td>0 Eviction/sec</td>
+              <td><span ng-bind="(serverStats.Evictions / serverStats.Uptime).toFixed(2)"></span> Eviction/sec</td>
             </tr>
             <tr>
               <td>Reclaimed</td>
-              <td>0</td>
+              <td ng-bind="serverStats.Reclaimed"></td>
             </tr>
             <tr>
               <td>Reclaimed Rate</td>
-              <td>0 Reclaimed/sec</td>
+              <td><span ng-bind="(serverStats.Reclaimed / serverStats.Uptime).toFixed(2)"></span> Reclaimed/sec</td>
             </tr>
           </tbody>
         </table>
@@ -70,19 +70,19 @@
           <tbody>
             <tr>
               <td>Max Bytes</td>
-              <td>64.0 MBytes</td>
+              <td ng-bind="settingsStats.Maxbytes"></td>
             </tr>
             <tr>
               <td>Max Connections</td>
-              <td>1024</td>
+              <td ng-bind="settingsStats.Maxconns"></td>
             </tr>
             <tr>
               <td>Chunk Size</td>
-              <td>48</td>
+              <td ng-bind="settingsStats.ChunkSize"></td>
             </tr>
             <tr>
               <td>Chunk Growth Factor</td>
-              <td>1.25</td>
+              <td ng-bind="settingsStats.GrowthFactor"></td>
             </tr>
           </tbody>
         </table>
@@ -97,19 +97,15 @@
         <div class="stats-container big">
           <div class="stat">
             <h4>Connections</h4>
-            <span class="value">100</span>
+            <span class="value" ng-bind="serverStats.CurrItems"></span>
           </div>
           <div class="stat">
             <h4>Items</h4>
-            <span class="value">300</span>
+            <span class="value" ng-bind="serverStats.CurrConnections"></span>
           </div>
           <div class="stat">
             <h4>Used</h4>
-            <span class="value">8.0 G</span>
-          </div>
-          <div class="stat">
-            <h4>Wasted</h4>
-            <span class="value">2.3 G</span>
+            <span class="value" ng-bind="serverStats.Bytes"></span>
           </div>
         </div>
       </div>

@@ -17,8 +17,12 @@
       </a>
       <div class="subnav-collapse">
         <ul class="mainnav">
-          <li class="active"><a href="/#/server"><i class="glyphicon glyphicon-home"></i><span>Server</span></a></li>
-          <li><a href="/#/slab"><i class="glyphicon glyphicon-hdd"></i><span>Slab</span></a></li>
+          <li ng-class="navClass('/server')">
+            <a href="/#/server"><i class="glyphicon glyphicon-home"></i><span>Server</span></a>
+          </li>
+          <li ng-class="navClass('/slab')">
+            <a href="/#/slab"><i class="glyphicon glyphicon-hdd"></i><span>Slab</span></a>
+          </li>
         </ul>
       </div>
     </div>

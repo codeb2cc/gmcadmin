@@ -6,11 +6,12 @@ module:testrunner
 
 GET     /                               App.Index
 
-# favicon
+# Favicon
 GET     /favicon.ico                    Static.Serve("public/dist/favicon.ico")
 
 # Map static resources from the /app/public folder to the /public path
 GET     /public/*filepath               Static.Serve("public/dist")
 
-# Catch all
-*       /:controller/:action            :controller.:action
+# Websocket
+WS      /ws/socket                      WebSocket.Socket
+
