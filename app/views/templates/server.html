@@ -1,4 +1,26 @@
 <div class="row">
+  <div class="col-md-12">
+    <div class="widget widget-stats">
+      <div class="widget-content">
+        <div class="stats-container big">
+          <div class="stat">
+            <h4>Connections</h4>
+            <span class="value" ng-bind="serverStats.CurrConnections"></span>
+          </div>
+          <div class="stat">
+            <h4>Items</h4>
+            <span class="value" ng-bind="serverStats.CurrItems"></span>
+          </div>
+          <div class="stat">
+            <h4>Used</h4>
+            <span class="value" ng-bind="serverStats.Bytes | unitResize"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
   <div class="col-md-4">
     <div class="widget widget-table">
       <div class="widget-header">
@@ -10,7 +32,7 @@
           <tbody>
             <tr>
               <td>Uptime</td>
-              <td ng-bind="serverStats.Uptime"></td>
+              <td ng-bind="serverStats.Uptime | second2time"></td>
             </tr>
             <tr>
               <td>Memcached</td>
@@ -70,7 +92,7 @@
           <tbody>
             <tr>
               <td>Max Bytes</td>
-              <td ng-bind="settingsStats.Maxbytes"></td>
+              <td ng-bind="settingsStats.Maxbytes | unitResize"></td>
             </tr>
             <tr>
               <td>Max Connections</td>
@@ -78,7 +100,7 @@
             </tr>
             <tr>
               <td>Chunk Size</td>
-              <td ng-bind="settingsStats.ChunkSize"></td>
+              <td ng-bind="settingsStats.ChunkSize | unitResize"></td>
             </tr>
             <tr>
               <td>Chunk Growth Factor</td>
@@ -91,23 +113,25 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-md-12">
-    <div class="widget widget-stats">
+  <div class="col-md-6">
+    <div class="widget widget-chart">
+      <div class="widget-header">
+        <span class="glyphicon glyphicon-stats"></span>
+        <h3>API Request</h3>
+      </div>
       <div class="widget-content">
-        <div class="stats-container big">
-          <div class="stat">
-            <h4>Connections</h4>
-            <span class="value" ng-bind="serverStats.CurrItems"></span>
-          </div>
-          <div class="stat">
-            <h4>Items</h4>
-            <span class="value" ng-bind="serverStats.CurrConnections"></span>
-          </div>
-          <div class="stat">
-            <h4>Used</h4>
-            <span class="value" ng-bind="serverStats.Bytes"></span>
-          </div>
-        </div>
+        <div class="chart-container" ng-model="serverStats" chart-stats-req></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="widget widget-chart">
+      <div class="widget-header">
+        <span class="glyphicon glyphicon-stats"></span>
+        <h3>Cache Size</h3>
+      </div>
+      <div class="widget-content">
+        <div class="chart-container" ng-model="serverStats" chart-stats-mem></div>
       </div>
     </div>
   </div>

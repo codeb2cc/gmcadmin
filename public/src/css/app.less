@@ -218,7 +218,7 @@ body {
     }
   }
 
-  &.widget-stats {
+  &.widget-stats, &.widget-chart {
     .widget-content {
       background: #E9E9E9;
       background:-moz-linear-gradient(top, #FAFAFA 0%, #E9E9E9 100%);
@@ -227,6 +227,12 @@ body {
       background:-o-linear-gradient(top, #FAFAFA 0%,#E9E9E9 100%);
       background:-ms-linear-gradient(top, #FAFAFA 0%,#E9E9E9 100%);
       background:linear-gradient(top, #FAFAFA 0%,#E9E9E9 100%);
+    }
+  }
+
+  &.widget-chart {
+    .widget-content {
+      padding: 0;
     }
   }
 }
@@ -296,6 +302,27 @@ body {
   li {
     display: inline;
     padding: 0 2px;
+  }
+}
+
+@media (max-width: 950px) {
+  .stats-container {
+    &.big {
+      .stat {
+        width: 49%;
+        display: block;
+        float: left;
+        margin-bottom: 3em;
+
+        &:nth-child(2) {
+          border-right: none;
+        }
+
+        &:nth-child(3) {
+          border-left: none;
+        }
+      }
+    }
   }
 }
 

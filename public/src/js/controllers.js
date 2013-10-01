@@ -21,6 +21,7 @@ angular.module('gmcadmin.controllers', [
 
     $scope.serverStats = {}
     $scope.settingsStats = {}
+    $scope.slabsStats = []
 
     var socketInit = function () {
       $scope.socket = new WebSocket('ws://' + location.host + ':8000/ws/socket')
@@ -46,6 +47,9 @@ angular.module('gmcadmin.controllers', [
               case 'settings':
                 $scope.settingsStats = data.Data
                 break
+              case 'slabs':
+                $scope.slabsStats = data.Data
+                break
             }
           } catch (exc) {
             console.log(exc)
@@ -58,6 +62,7 @@ angular.module('gmcadmin.controllers', [
       if ($scope.connected) {
         $scope.socket.send('server')
         $scope.socket.send('settings')
+        $scope.socket.send('slabs')
       }
     }
     $scope.updateInterval = setInterval(function () {

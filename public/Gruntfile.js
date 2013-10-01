@@ -1,5 +1,7 @@
 /*global module:false*/
+
 module.exports = function(grunt) {
+  "use strict";
 
   // Project configuration.
   grunt.initConfig({
@@ -37,6 +39,7 @@ module.exports = function(grunt) {
           { src: 'src/lib/jquery/jquery-2.0.3.js', dest: 'dist/js/jquery.js' },
           { src: 'src/lib/angular/angular.js', dest: 'dist/js/angular.js' },
           { src: 'src/lib/angular/angular-route.js', dest: 'dist/js/angular-route.js' },
+          { src: 'src/lib/highcharts/highcharts.js', dest: 'dist/js/highcharts.js' },
           { expand: true, cwd: 'src/lib/bootstrap/', src: ['fonts/**'], dest: 'dist/' }
         ]
       },
@@ -50,6 +53,7 @@ module.exports = function(grunt) {
           { src: 'src/lib/angular/angular.min.js.map', dest: 'dist/js/angular.min.js.map' },
           { src: 'src/lib/angular/angular-route.min.js', dest: 'dist/js/angular-route.js' },
           { src: 'src/lib/angular/angular-route.min.map', dest: 'dist/js/angular-route.min.js.map' },
+          { src: 'src/lib/highcharts/highcharts.min.js', dest: 'dist/js/highcharts.js' },
           { expand: true, cwd: 'src/lib/bootstrap/', src: ['fonts/**'], dest: 'dist/' }
         ]
       }
