@@ -2,8 +2,8 @@
 
 "use strict";
 
-angular.module('gmcadmin.controllers', [
-]).controller('NavCtrl', [
+angular.module('gmcadmin.controllers', [])
+.controller('NavCtrl', [
   '$scope'
 , '$location'
 , function ($scope, $location) {
@@ -13,77 +13,117 @@ angular.module('gmcadmin.controllers', [
   }
 ])
 .controller('ServerCtrl', [
-  '$scope'
+  'CONF'
+, '$scope'
 , '$timeout'
-, function ($scope, $timeout) {
-    $scope.socket = null
-    $scope.connected = false
+, 'socketClient'
+, function (CONF, $scope, $timeout, socketClient) {
+    $scope.serverStats = null
+    $scope.settingsStats = null
+    $scope.slabsStats = null
 
-    $scope.serverStats = {}
-    $scope.settingsStats = {}
-    $scope.slabsStats = []
-
-    var socketInit = function () {
-      $scope.socket = new WebSocket('ws://' + location.host + ':8000/ws/socket')
-      $scope.socket.onopen = function (evt) {
-        $scope.$apply(function () {
-          $scope.connected = true
-          $scope.update()
-        })
-      }
-      $scope.socket.onclose = function (evt) {
-        $scope.$apply(function () {
-          $scope.connected = false
-        })
-      }
-      $scope.socket.onmessage = function (evt) {
-        $scope.$apply(function () {
-          try {
-            var data = JSON.parse(evt.data)
-            switch (data.Cmd) {
-              case 'server':
-                $scope.serverStats = data.Data
-                break
-              case 'settings':
-                $scope.settingsStats = data.Data
-                break
-              case 'slabs':
-                $scope.slabsStats = data.Data
-                break
+    socketClient.callbacks.message = function (evt, data) {
+      $scope.$apply(function () {
+        switch (data.Cmd) {
+          case 'server':
+            $scope.serverStats = data.Data
+            break
+          case 'settings':
+            $scope.settingsStats = data.Data
+            break
+          case 'slabs':
+            var slab = null
+            for (var i = 0; i < data.Data.length; i++) {
+              slab = data.Data[i]
+              slab.Malloced = slab.TotalChunks * slab.ChunkSize
+              slab.Wasted = (slab.Malloced < slab.MemRequested) ? ((slab.TotalChunks - slab.UsedChunks) * slab.ChunkSize) : (slab.Malloced - slab.MemRequested)
             }
-          } catch (exc) {
-            console.log(exc)
-          }
-        })
-      }
+            $scope.slabsStats = data.Data
+            break
+        }
+      })
+    }
+
+    $scope.ready = function () {
+      var readyState = $scope.serverStats !== null &&
+            $scope.settingsStats !== null &&
+            $scope.slabsStats !== null
+      return readyState
     }
 
     $scope.update = function () {
-      if ($scope.connected) {
-        $scope.socket.send('server')
-        $scope.socket.send('settings')
-        $scope.socket.send('slabs')
-      }
+      socketClient.send('server')
+      socketClient.send('settings')
+      socketClient.send('slabs')
     }
+
     $scope.updateInterval = setInterval(function () {
       $scope.update()
     }, 60 * 1000)
 
-    $scope.$on('$routeChangeStart', function () {
-      if ($scope.connected) {
-        $scope.socket.close()
-      }
-    })
+    $scope.$on('$routeChangeStart', function () {})
 
     $timeout(function () {
-      socketInit()
-    }, 0)
-
+      $scope.update()
+    }, 0)   // Initial
   }
 ])
 .controller('SlabCtrl', [
-  '$scope'
-, function ($scope) {
+  'CONF'
+, '$scope'
+, '$timeout'
+, 'socketClient'
+, function (CONF, $scope, $timeout, socketClient) {
+    $scope.slabsStats = null
+    $scope.itemsStats = null
+    $scope.slabIndex = 0
+
+    socketClient.callbacks.message = function (evt, data) {
+      $scope.$apply(function () {
+        switch (data.Cmd) {
+          case 'slabs':
+            var slab = null
+            for (var i = 0; i < data.Data.length; i++) {
+              slab = data.Data[i]
+              slab.Malloced = slab.TotalChunks * slab.ChunkSize
+              slab.Wasted = (slab.Malloced < slab.MemRequested) ? ((slab.TotalChunks - slab.UsedChunks) * slab.ChunkSize) : (slab.Malloced - slab.MemRequested)
+            }
+            $scope.slabsStats = data.Data
+            break
+          case 'items':
+            $scope.itemsStats = data.Data
+            break
+        }
+      })
+    }
+
+    $scope.ready = function () {
+      var readyState = $scope.slabsStats !== null &&
+            $scope.itemsStats !== null
+      return readyState
+    }
+
+    $scope.update = function () {
+      socketClient.send('slabs')
+      socketClient.send('items')
+    }
+
+    $scope.activeSlab = function (evt, index) {
+      $scope.slabIndex = index
+      var tr = angular.element(evt.target).parentsUntil('tbody')
+      tr.siblings().removeClass('active')
+      tr.addClass('active')
+    }
+
+    $scope.updateInterval = setInterval(function () {
+      $scope.update()
+    }, 60 * 1000)
+
+    $scope.$on('$routeChangeStart', function () {})
+
+    $timeout(function () {
+      $scope.update()
+    }, 0)
   }
 ])
 .controller('LiveCtrl', [

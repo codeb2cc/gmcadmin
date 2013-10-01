@@ -19,7 +19,7 @@ angular.module('gmcadmin.filters', [
     return timeStr
   }
 }).filter('unitResize', function () {
-  var units = ['', 'K', 'M', 'G', 'T']
+  var units = ['b', 'K', 'M', 'G', 'T']
   return function (value, flag) {
     var i = 0
     var base = flag ? flag : 1024

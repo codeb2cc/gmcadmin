@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" ng-if="ready()">
   <div class="col-md-12">
     <div class="widget widget-stats">
       <div class="widget-content">
@@ -20,7 +20,7 @@
     </div>
   </div>
 </div>
-<div class="row">
+<div class="row" ng-if="ready()">
   <div class="col-md-4">
     <div class="widget widget-table">
       <div class="widget-header">
@@ -176,7 +176,7 @@
     </div>
   </div>
 </div>
-<div class="row">
+<div class="row" ng-if="ready()">
   <div class="col-md-6">
     <div class="widget widget-chart">
       <div class="widget-header">

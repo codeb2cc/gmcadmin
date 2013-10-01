@@ -23,6 +23,7 @@ var (
     cmdServerStats = "server"
     cmdSettingsStats = "settings"
     cmdSlabStats = "slabs"
+    cmdItemStats = "items"
 )
 
 func (c WebSocket) Socket(host string, ws *websocket.Conn) revel.Result {
@@ -73,6 +74,21 @@ func (c WebSocket) Socket(host string, ws *websocket.Conn) revel.Result {
         case cmdSlabStats:
             response.Cmd = cmdSlabStats
             if stats, err := mcClient.StatsSlabs(addr); err == nil {
+                var keys []int
+                var values []interface{}
+                for key := range stats {
+                    keys = append(keys, key)
+                }
+                sort.Ints(keys)
+                for _, key := range keys {
+                    values = append(values, stats[key])
+                }
+                response.Status = "success"
+                response.Data = values
+            }
+        case cmdItemStats:
+            response.Cmd = cmdItemStats
+            if stats, err := mcClient.StatsItems(addr); err == nil {
                 var keys []int
                 var values []interface{}
                 for key := range stats {

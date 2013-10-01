@@ -2,8 +2,8 @@
 
 "use strict";
 
-angular.module('gmcadmin.directives', [
-]).directive('chartStatsReq', function () {
+angular.module('gmcadmin.directives', [])
+.directive('chartStatsReq', function () {
   return {
     link: function (scope, element, attrs) {
       var chart = null
@@ -120,12 +120,12 @@ angular.module('gmcadmin.directives', [
       })
     }
   }
-}).directive('chartStatsMem', function () {
+})
+.directive('chartStatsMem', function () {
   return {
     link: function (scope, element, attrs) {
       var chart = null
       var maxbytes = 0
-      var test = 1
 
       var colors = [
         '#4968AB'
@@ -212,11 +212,122 @@ angular.module('gmcadmin.directives', [
         if (slabs && slabs.length) {
           var stats = { Malloced: 0, Used: 0, Wasted: 0, Free: 0 }
           for (var i = 0; i < slabs.length; i++) {
-            stats.Malloced += slabs[i].ChunkSize * slabs[i].TotalChunks
-            stats.Wasted += (slabs[i].ChunkSize * slabs[i].TotalChunks < slabs[i].MemRequested) ? ((slabs[i].TotalChunks - slabs[i].UsedChunks) * slabs[i].ChunkSize) : (slabs[i].TotalChunks * slabs[i].ChunkSize - slabs[i].MemRequested)
+            stats.Malloced += slabs[i].Malloced
+            stats.Wasted += slabs[i].Wasted
           }
           stats.Used = stats.Malloced - stats.Wasted
           stats.Free = maxbytes - stats.Malloced
+          updateChart(stats)
+        }
+      })
+    }
+  }
+})
+.directive('chartStatsSlab', function () {
+  return {
+    link: function (scope, element, attrs) {
+      var chart = null
+
+      var colors = [
+        '#48C636'
+      , '#1290EE'
+      , '#FF3602'
+      , '#E8B90A'
+      , '#A110E8'
+      , '#FF89E0'
+      , '#C84D64'
+      , '#4968AB'
+      ]
+
+      var labelFormatter = function () {
+        var label = ''
+        if (this.y) {
+          label = Highcharts.numberFormat(this.percentage) + '%'
+        }
+        return label
+      }
+
+      var unit = 'KB'
+      var unitResize = function (value) {
+        return value > 1024 ? Math.floor(value / 1024) : value
+      }
+
+      var buildSeries = function (stats) {
+        var series = [
+          {
+            name: 'Memory'
+          , innerSize: '20%'
+          , dataLabels: { 
+              distance: -120
+            , color: 'white'
+            }
+          , tooltip: {
+              pointFormat: '<span style="color:{series.color}">Size</span>: <b>{point.y}</b> ' + unit + '<br/>'
+            }
+          , data: [
+              { name: 'Wasted Memory', y: unitResize(stats.Wasted), color: colors[6] }
+            , { name: 'Used Memory', y: unitResize(stats.Malloced - stats.Wasted), color: colors[7] }
+            ]
+          , showInLegend: false
+          }
+        , {
+            name: 'Requests'
+          , innerSize: '60%'
+          , dataLabels: { distance: -50, color: 'white' }
+          , data: [
+              { name: 'Get', y: stats.GetHits, color: colors[0] }
+            , { name: 'Set', y: stats.CmdSet, color: colors[1] }
+            , { name: 'Delete', y: stats.DeleteHits, color: colors[2] }
+            , { name: 'Cas', y: stats.CasHits, color: colors[3] }
+            , { name: 'Incr/Decr', y: stats.IncrHits + stats.DecrHits, color: colors[4] }
+            , { name: 'Touch', y: stats.TouchHits, color: colors[5] }
+            ]
+          , showInLegend: true
+          }
+        ]
+        return series 
+      }
+
+      var buildChart = function (series, el) {
+        var chart = new Highcharts.Chart({
+          chart: {
+            type: 'pie'
+          , renderTo: el
+          , backgroundColor: null
+          , margin: [0, 0, 0, 0]
+          }
+        , title: { text: null }
+        , legend: { backgroundColor: 'white' }
+        , credits: { enabled: false }
+        , plotOptions: {
+            pie: {
+              shadow: false
+            , dataLabels: { color: '#222222', formatter: labelFormatter }
+            }
+          , series: {
+              point: {
+                events: { legendItemClick: function () { return false } }
+              }
+            }
+          }
+        , series: series
+        })
+        return chart
+      }
+
+      var updateChart = function (stats) {
+        var series = buildSeries(stats)
+        if (!chart) {
+          chart = buildChart(series, element[0])
+        } else {
+          for (var i = 0; i < series.length; i++) {
+            chart.series[i].setData(series[i].data)
+          }
+        }
+      }
+
+      scope.$watch('slabsStats[slabIndex]', function (stats) {
+        if (stats && Object.keys(stats).length) {
           updateChart(stats)
         }
       })

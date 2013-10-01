@@ -1,2 +1,121 @@
-
-
+<div class="row" ng-if="ready()">
+  <div class="col-md-7">
+    <div class="widget widget-table">
+      <div class="widget-header">
+        <i class="glyphicon glyphicon-info-sign"></i>
+        <h3>Slab #<span ng-bind="slabIndex + 1"></span> Info</h3>
+      </div>
+      <div class="widget-content">
+        <table class="table table-bordered table-striped">
+          <tbody>
+            <tr>
+              <td>Chunk Size</td>
+              <td ng-bind="slabsStats[slabIndex].ChunkSize | unitResize"></td>
+              <td>Chunks Per Page</td>
+              <td ng-bind="slabsStats[slabIndex].ChunksPerPage"></td>
+            </tr>
+            <tr>
+              <td>Chunks Used/Free/Total</td>
+              <td colspan="3">
+                <span ng-bind="slabsStats[slabIndex].UsedChunks"></span> / <span ng-bind="slabsStats[slabIndex].FreeChunks"></span> / <span ng-bind="slabsStats[slabIndex].TotalChunks"></span>
+              </td>
+            </tr>
+            <tr>
+              <td>Memory Requested</td>
+              <td colspan="3" ng-bind="slabsStats[slabIndex].MemRequested | unitResize"></td>
+            </tr>
+            <tr>
+              <td>Items</td>
+              <td ng-bind="itemsStats[slabIndex].Number"></td>
+              <td>Pages</td>
+              <td ng-bind="slabsStats[slabIndex].TotalPages"></td>
+            </tr>
+            <tr>
+              <td>Item Age</td>
+              <td colspan="3" ng-bind="itemsStats[slabIndex].Age | second2time"></td>
+            </tr>
+            <tr>
+              <td>Evicted</td>
+              <td colspan="3" ng-bind="itemsStats[slabIndex].Evicted"></td>
+            </tr>
+            <tr>
+              <td>Evicted Nonzero</td>
+              <td colspan="3" ng-bind="itemsStats[slabIndex].EvictedNonzero"></td>
+            </tr>
+            <tr>
+              <td>Evicted Time</td>
+              <td colspan="3" ng-bind="itemsStats[slabIndex].EvictedTime"></td>
+            </tr>
+            <tr>
+              <td>Reclaimed</td>
+              <td colspan="3" ng-bind="itemsStats[slabIndex].Reclaimed"></td>
+            </tr>
+            <tr>
+              <td>Unfetched Expired/Evicted</td>
+              <td colspan="3">
+                <span ng-bind="itemsStats[slabIndex].ExpiredUnfetched"></span> / <span ng-bind="itemsStats[slabIndex].EvictedUnfetched"></span>
+              </td>
+            </tr>
+            <tr>
+              <td>Warning OOM/TR</td>
+              <td colspan="3">
+                <span ng-bind="itemsStats[slabIndex].Outofmemory"></span> / <span ng-bind="itemsStats[slabIndex].Tailrepairs"></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-5">
+    <div class="widget widget-chart">
+      <div class="widget-header">
+        <span class="glyphicon glyphicon-stats"></span>
+        <h3>Slab #<span>1</span> Requests &amp; Memory</h3>
+      </div>
+      <div class="widget-content">
+        <div class="chart-container" ng-model="slabsStats" chart-stats-slab></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row" ng-if="ready()">
+  <div class="col-md-12">
+    <div class="widget widget-table">
+      <div class="widget-header">
+        <i class="glyphicon glyphicon-hdd"></i>
+        <h3>Slabs</h3>
+      </div>
+      <div class="widget-content">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped table-hover">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Chunk Size</th>
+                <th>Used Chunk</th>
+                <th>Free Chunk</th>
+                <th>Total Chunk</th>
+                <th>Malloced</th>
+                <th>Wasted</th>
+                <th>Requested</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="stats in slabsStats" ng-class="$first ? 'active' : ''" ng-click="activeSlab($event, $index)">
+                <td ng-bind="$index + 1"></td>
+                <td ng-bind="stats.ChunkSize | unitResize"></td>
+                <td ng-bind="stats.UsedChunks"></td>
+                <td ng-bind="stats.FreeChunks"></td>
+                <td ng-bind="stats.TotalChunks"></td>
+                <td ng-bind="stats.Malloced | unitResize"></td>
+                <td ng-bind="stats.Wasted | unitResize"></td>
+                <td ng-bind="stats.MemRequested | unitResize"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

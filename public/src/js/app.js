@@ -15,4 +15,6 @@ angular.module('gmcadmin', [
   $routeProvider.when('/live', { templateUrl: '/tpl/live.html', controller: 'LiveCtrl' })
   $routeProvider.otherwise({ redirectTo: '/server' })
 }])
-
+.constant('CONF', {
+  'websocket': 'ws://localhost.com:8000/ws/socket'
+})
