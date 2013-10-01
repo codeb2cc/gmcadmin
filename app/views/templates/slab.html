@@ -9,9 +9,9 @@
         <table class="table table-bordered table-striped">
           <tbody>
             <tr>
-              <td>Chunk Size</td>
+              <td title="The amount of space each chunk uses. One item will use one chunk of the appropriate size">Chunk Size</td>
               <td ng-bind="slabsStats[slabIndex].ChunkSize | unitResize"></td>
-              <td>Chunks Per Page</td>
+              <td title="How many chunks exist within one page. A page by default is less than or equal to one megabyte in size. Slabs are allocated by page, then broken into chunks">Chunks Per Page</td>
               <td ng-bind="slabsStats[slabIndex].ChunksPerPage"></td>
             </tr>
             <tr>
@@ -21,43 +21,43 @@
               </td>
             </tr>
             <tr>
-              <td>Memory Requested</td>
+              <td title="Number of bytes requested to be stored in this slab">Memory Requested</td>
               <td colspan="3" ng-bind="slabsStats[slabIndex].MemRequested | unitResize"></td>
             </tr>
             <tr>
-              <td>Items</td>
+              <td title="Number of items presently stored in this class. Expired items are not automatically excluded">Items</td>
               <td ng-bind="itemsStats[slabIndex].Number"></td>
-              <td>Pages</td>
+              <td title="Total number of pages allocated to the slab class">Pages</td>
               <td ng-bind="slabsStats[slabIndex].TotalPages"></td>
             </tr>
             <tr>
-              <td>Item Age</td>
+              <td title="Age of the oldest item in the LRU">Oldest Item</td>
               <td colspan="3" ng-bind="itemsStats[slabIndex].Age | second2time"></td>
             </tr>
             <tr>
-              <td>Evicted</td>
+              <td title="Number of times an item had to be evicted from the LRU before it expired">Evicted</td>
               <td colspan="3" ng-bind="itemsStats[slabIndex].Evicted"></td>
             </tr>
             <tr>
-              <td>Evicted Nonzero</td>
+              <td title="Number of times an item which had an explicit expire time set had to be evicted from the LRU before it expired">Evicted Nonzero</td>
               <td colspan="3" ng-bind="itemsStats[slabIndex].EvictedNonzero"></td>
             </tr>
             <tr>
-              <td>Evicted Time</td>
+              <td title=" Seconds since the last access for the most recent item evicted from this class. Use this to judge how recently active your evicted data is">Evicted Time</td>
               <td colspan="3" ng-bind="itemsStats[slabIndex].EvictedTime"></td>
             </tr>
             <tr>
-              <td>Reclaimed</td>
+              <td title="Number of times an entry was stored using memory from an expired entry">Reclaimed</td>
               <td colspan="3" ng-bind="itemsStats[slabIndex].Reclaimed"></td>
             </tr>
             <tr>
-              <td>Unfetched Expired/Evicted</td>
+              <td title="Number of expired items reclaimed/evicted from the LRU which were never touched after being set">Unfetched Expired/Evicted</td>
               <td colspan="3">
                 <span ng-bind="itemsStats[slabIndex].ExpiredUnfetched"></span> / <span ng-bind="itemsStats[slabIndex].EvictedUnfetched"></span>
               </td>
             </tr>
             <tr>
-              <td>Warning OOM/TR</td>
+              <td title="OOM: Number of times the underlying slab class was unable to store a new item. TR: Number of times we self-healed a slab with a refcount leak">Warning OOM/TR</td>
               <td colspan="3">
                 <span ng-bind="itemsStats[slabIndex].Outofmemory"></span> / <span ng-bind="itemsStats[slabIndex].Tailrepairs"></span>
               </td>
