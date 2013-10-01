@@ -30,21 +30,41 @@
       <div class="widget-content">
         <table class="table table-bordered table-striped">
           <tbody>
-            <tr>
+            <tr title="Process id of this server process">
+              <td>PID</td>
+              <td ng-bind="serverStats.Pid | second2time"></td>
+            </tr>
+            <tr title="Time since the server started">
               <td>Uptime</td>
               <td ng-bind="serverStats.Uptime | second2time"></td>
             </tr>
-            <tr>
-              <td>Memcached</td>
-              <td ng-bind="serverStats.Version"></td>
+            <tr title="Number of worker threads requested">
+              <td>Threads</td>
+              <td ng-bind="serverStats.Threads"></td>
             </tr>
-            <tr>
+            <tr title="Total number of connections opened since the server started running">
               <td>Total Connections</td>
               <td ng-bind="serverStats.TotalConnections"></td>
             </tr>
-            <tr>
+            <tr title="Total number of items stored since the server started">
               <td>Total Items</td>
               <td ng-bind="serverStats.TotalItems"></td>
+            </tr>
+            <tr title="Total number of bytes read by this server from network">
+              <td>Bytes Read</td>
+              <td ng-bind="serverStats.BytesRead | unitResize"></td>
+            </tr>
+            <tr title="Total number of bytes sent by this server to network">
+              <td>Bytes Written</td>
+              <td ng-bind="serverStats.BytesWritten | unitResize"></td>
+            </tr>
+            <tr title="Current size multiplier for hash table">
+              <td>Hash Power Level</td>
+              <td ng-bind="serverStats.HashPowerLevel | unitResize"></td>
+            </tr>
+            <tr title="Bytes currently used by hash tables">
+              <td>Hash Bytes</td>
+              <td ng-bind="serverStats.HashBytes | unitResize"></td>
             </tr>
           </tbody>
         </table>
@@ -54,27 +74,51 @@
   <div class="col-md-4">
     <div class="widget widget-table">
       <div class="widget-header">
+        <span class="glyphicon glyphicon-dashboard"></span>
+        <h3>Resource Usage</h3>
+      </div>
+      <div class="widget-content">
+        <table class="table table-bordered table-striped">
+          <tbody>
+            <tr title="Accumulated user time for this process">
+              <td>User Time</td>
+              <td><span ng-bind="serverStats.RusageUser"></span> secs</td>
+            </tr>
+            <tr title="Accumulated system time for this process">
+              <td>System Time</td>
+              <td><span ng-bind="serverStats.RusageSystem"></span> secs</td>
+            </tr>
+            <tr title="Number of misc fds used internally">
+              <td>Reserved Fds</td>
+              <td><span ng-bind="serverStats.ReservedFds"></span> secs</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="widget widget-table">
+      <div class="widget-header">
         <span class="glyphicon glyphicon-export"></span>
         <h3>Eviction & Reclaimed</h3>
       </div>
       <div class="widget-content">
         <table class="table table-bordered table-striped">
           <tbody>
-            <tr>
-              <td>Items Eviction</td>
+            <tr title="Number of valid items removed from cache to free memory for new items">
+              <td>Eviction</td>
               <td ng-bind="serverStats.Evictions"></td>
             </tr>
-            <tr>
-              <td>Eviction Rate</td>
-              <td><span ng-bind="(serverStats.Evictions / serverStats.Uptime).toFixed(2)"></span> Eviction/sec</td>
-            </tr>
-            <tr>
+            <tr title="Number of times an entry was stored using memory from an expired entry">
               <td>Reclaimed</td>
               <td ng-bind="serverStats.Reclaimed"></td>
             </tr>
-            <tr>
-              <td>Reclaimed Rate</td>
-              <td><span ng-bind="(serverStats.Reclaimed / serverStats.Uptime).toFixed(2)"></span> Reclaimed/sec</td>
+            <tr title="Items evicted from LRU that were never touched by get/incr/append/etc">
+              <td>Evicted Unfetched</td>
+              <td ng-bind="serverStats.EvictedUnfetched"></td>
+            </tr>
+            <tr title="Items pulled from LRU that were never touched by get/incr/append/etc before expiring">
+              <td>Expired Unfetched</td>
+              <td ng-bind="serverStats.ExpiredUnfetched"></td>
             </tr>
           </tbody>
         </table>
@@ -90,21 +134,41 @@
       <div class="widget-content">
         <table class="table table-bordered table-striped">
           <tbody>
-            <tr>
+            <tr title="Maximum number of bytes allows in this cache">
               <td>Max Bytes</td>
               <td ng-bind="settingsStats.Maxbytes | unitResize"></td>
             </tr>
-            <tr>
+            <tr title="Maximum number of clients allowed">
               <td>Max Connections</td>
               <td ng-bind="settingsStats.Maxconns"></td>
             </tr>
-            <tr>
+            <tr title="TCP listen backlog">
+              <td>TCP Backlog</td>
+              <td ng-bind="settingsStats.TcpBacklog"></td>
+            </tr>
+            <tr title="Minimum space allocated for key+value+flags">
               <td>Chunk Size</td>
               <td ng-bind="settingsStats.ChunkSize | unitResize"></td>
             </tr>
-            <tr>
+            <tr title="Chunk size growth factor">
               <td>Chunk Growth Factor</td>
               <td ng-bind="settingsStats.GrowthFactor"></td>
+            </tr>
+            <tr title="Maximum item size">
+              <td>Item Size Max</td>
+              <td ng-bind="settingsStats.ItemSizeMax | unitResize"></td>
+            </tr>
+            <tr title="Max num IO ops processed within an event">
+              <td>Request Per Event</td>
+              <td ng-bind="settingsStats.ReqsPerEvent"></td>
+            </tr>
+            <tr title="CAS enabled">
+              <td>CAS</td>
+              <td ng-bind="settingsStats.CasEnabled"></td>
+            </tr>
+            <tr title="SASL auth requested and enabled">
+              <td>SASL</td>
+              <td ng-bind="settingsStats.AuthEnabledSasl"></td>
             </tr>
           </tbody>
         </table>
