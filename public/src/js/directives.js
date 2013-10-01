@@ -180,6 +180,11 @@ angular.module('gmcadmin.directives', [
             , dataLabels: { color: '#222222', formatter: labelFormatter }
             , tooltip: { pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ' + unit + '<br/>' }
             }
+          , series: {
+              point: {
+                events: { legendItemClick: function () { return false } }
+              }
+            }
           }
         , series: series
         })
