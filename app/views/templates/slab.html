@@ -102,7 +102,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="stats in slabsStats" ng-class="$first ? 'active' : ''" ng-click="activeSlab($event, $index)">
+              <tr ng-repeat="stats in slabsStats" ng-class="$index == slabIndex ? 'active' : ''" ng-click="activeSlab($event, $index)">
                 <td ng-bind="$index + 1"></td>
                 <td ng-bind="stats.ChunkSize | unitResize"></td>
                 <td ng-bind="stats.UsedChunks"></td>

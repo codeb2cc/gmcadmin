@@ -110,9 +110,6 @@ angular.module('gmcadmin.controllers', [])
 
     $scope.activeSlab = function (evt, index) {
       $scope.slabIndex = index
-      var tr = angular.element(evt.target).parentsUntil('tbody')
-      tr.siblings().removeClass('active')
-      tr.addClass('active')
     }
 
     $scope.updateInterval = setInterval(function () {
