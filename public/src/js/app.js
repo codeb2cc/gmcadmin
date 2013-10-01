@@ -12,6 +12,7 @@ angular.module('gmcadmin', [
 .config(['$routeProvider', function ($routeProvider) {
   $routeProvider.when('/server', { templateUrl: '/tpl/server.html', controller: 'ServerCtrl' })
   $routeProvider.when('/slab', { templateUrl: '/tpl/slab.html', controller: 'SlabCtrl' })
+  $routeProvider.when('/live', { templateUrl: '/tpl/live.html', controller: 'LiveCtrl' })
   $routeProvider.otherwise({ redirectTo: '/server' })
 }])
 

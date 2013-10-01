@@ -86,3 +86,8 @@ angular.module('gmcadmin.controllers', [
 , function ($scope) {
   }
 ])
+.controller('LiveCtrl', [
+  '$scope'
+, function ($scope) {
+  }
+])
