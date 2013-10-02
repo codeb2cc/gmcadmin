@@ -23,7 +23,7 @@ angular.module('gmcadmin.controllers', [])
     $scope.slabsStats = null
 
     socketClient.callbacks.message = function (evt, data) {
-      NProgress.inc(0.2)
+      NProgress.inc(0.3)
       $scope.$apply(function () {
         switch (data.Cmd) {
           case 'server':
@@ -49,7 +49,6 @@ angular.module('gmcadmin.controllers', [])
       var readyState = $scope.serverStats !== null &&
             $scope.settingsStats !== null &&
             $scope.slabsStats !== null
-      if (readyState) { NProgress.done() }
       return readyState
     }
 
@@ -60,15 +59,16 @@ angular.module('gmcadmin.controllers', [])
       socketClient.send('slabs')
     }
 
-    $scope.updateInterval = setInterval(function () {
-      $scope.update()
-    }, 60 * 1000)
-
-    $scope.$on('$routeChangeStart', function () {})
+    $scope.$on('$routeChangeStart', function () {
+      clearInterval($scope.updateInterval)
+    })
 
     $timeout(function () {
+      $scope.updateInterval = setInterval(function () {
+        $scope.update()
+      }, 60 * 1000)
       $scope.update()
-    }, 0)   // Initial
+    }, 0)
   }
 ])
 .controller('SlabCtrl', [
@@ -82,7 +82,7 @@ angular.module('gmcadmin.controllers', [])
     $scope.slabIndex = 0
 
     socketClient.callbacks.message = function (evt, data) {
-      NProgress.inc(0.3)
+      NProgress.inc(0.45)
       $scope.$apply(function () {
         switch (data.Cmd) {
           case 'slabs':
@@ -104,7 +104,6 @@ angular.module('gmcadmin.controllers', [])
     $scope.ready = function () {
       var readyState = $scope.slabsStats !== null &&
             $scope.itemsStats !== null
-      if (readyState) { NProgress.done() }
       return readyState
     }
 
@@ -118,13 +117,14 @@ angular.module('gmcadmin.controllers', [])
       $scope.slabIndex = index
     }
 
-    $scope.updateInterval = setInterval(function () {
-      $scope.update()
-    }, 60 * 1000)
-
-    $scope.$on('$routeChangeStart', function () {})
+    $scope.$on('$routeChangeStart', function () {
+      clearInterval($scope.updateInterval)
+    })
 
     $timeout(function () {
+      $scope.updateInterval = setInterval(function () {
+        $scope.update()
+      }, 60 * 1000)
       $scope.update()
     }, 0)
   }
@@ -245,7 +245,7 @@ angular.module('gmcadmin.controllers', [])
     }
 
     socketClient.callbacks.message = function (evt, data) {
-      NProgress.inc(0.3)
+      NProgress.inc(0.45)
       $scope.$apply(function () {
         var time = (new Date()).getTime()
         switch (data.Cmd) {
@@ -317,7 +317,6 @@ angular.module('gmcadmin.controllers', [])
     $scope.ready = function () {
       var readyState = $scope.serverStats !== null &&
             $scope.slabsStats !== null
-      if (readyState) { NProgress.done() }
       return readyState
     }
 
@@ -328,13 +327,14 @@ angular.module('gmcadmin.controllers', [])
       socketClient.send('items')
     }
 
-    $scope.updateInterval = setInterval(function () {
-      $scope.update()
-    }, 10 * 1000)
-
-    $scope.$on('$routeChangeStart', function () {})
+    $scope.$on('$routeChangeStart', function () {
+      clearInterval($scope.updateInterval)
+    })
 
     $timeout(function () {
+      $scope.updateInterval = setInterval(function () {
+        $scope.update()
+      }, 10 * 1000)
       $scope.update()
     }, 0)
   }
