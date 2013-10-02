@@ -19,5 +19,8 @@ angular.module('gmcadmin', [
 }])
 .constant('CONF', {
   'websocket': 'ws://localhost.com:8000/ws/socket'
+, 'serverInterval': 60 * 1000
+, 'slabInterval': 60 * 1000
+, 'liveInterval': 10 * 1000
 })
 

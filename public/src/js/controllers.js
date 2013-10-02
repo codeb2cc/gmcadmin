@@ -66,7 +66,7 @@ angular.module('gmcadmin.controllers', [])
     $timeout(function () {
       $scope.updateInterval = setInterval(function () {
         $scope.update()
-      }, 60 * 1000)
+      }, CONF.serverInterval)
       $scope.update()
     }, 0)
   }
@@ -124,7 +124,7 @@ angular.module('gmcadmin.controllers', [])
     $timeout(function () {
       $scope.updateInterval = setInterval(function () {
         $scope.update()
-      }, 60 * 1000)
+      }, CONF.slabInterval)
       $scope.update()
     }, 0)
   }
@@ -334,7 +334,7 @@ angular.module('gmcadmin.controllers', [])
     $timeout(function () {
       $scope.updateInterval = setInterval(function () {
         $scope.update()
-      }, 10 * 1000)
+      }, CONF.liveInterval)
       $scope.update()
     }, 0)
   }
