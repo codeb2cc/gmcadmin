@@ -334,3 +334,104 @@ angular.module('gmcadmin.directives', [])
     }
   }
 })
+.directive('chartStatsLive', function () {
+  return {
+    link: function (scope, element, attrs) {
+      var chart = null
+      var config = {
+        chartType: 'line'
+      , plotOptions: {}
+      , colors: []
+      , dataLabels: []
+      , maxValue: null
+      , maxLength: 10
+      , unit: ''
+      , watch: null
+      }
+      var deregistration = null
+
+      var trySet = function (x, y) {
+        if (y) { x = y }
+      }
+
+      scope.$watch(attrs.chartStatsLive, function (obj) {
+        angular.extend(config, obj)
+
+        var time = (new Date()).getTime()
+        var series = []
+        for (var i = 0; i < config.dataLabels.length; i++) {
+          series.push({
+            name: config.dataLabels[i]
+          , color: config.colors[i]
+          , data: [{ x: time, y: 0 }]
+          })
+        }
+
+        chart = buildChart(series, element[0])
+
+        if ("function" === typeof deregistration) { deregistration() }
+        if (config.watch) {
+          deregistration = scope.$watch(config.watch, function (data) {
+            updateChart(data)
+          })
+        }
+      })
+
+      var buildChart = function (series, el) {
+        Highcharts.setOptions({ global: { useUTC: false } })
+
+        config.plotOptions.series = { marker: { enabled: false } }
+
+        var time = (new Date()).getTime()
+        var chart = new Highcharts.Chart({
+          chart: {
+            type: config.chartType
+          , backgroundColor: null
+          , height: 240
+          , marginTop: 20
+          , renderTo: el
+          }
+        , title: { text: null }
+        , legend: {
+            backgroundColor: 'white'
+          , layout: 'vertical'
+          , align: 'left'
+          , verticalAlign: 'top'
+          , floating: true
+          }
+        , credits: { enabled: false }
+        , tooltip: {
+            shared: true
+          , valueSuffix: config.unit
+          , headerFormat: ''
+          }
+        , plotOptions: config.plotOptions
+        , yAxis: {
+            title: { text: null }
+          , max: config.maxValue
+          , opposite: true
+          , gridLineWidth: 0
+          }
+        , xAxis: {
+            type: 'datetime'
+          , tickPixelInterval: 150
+          }
+        , series: series
+        })
+        return chart
+      }
+
+      var updateChart = function (data) {
+        var time = (new Date()).getTime()
+        for (var i = 0; i < data.length; i++) {
+          chart.series[i].addPoint(
+            [time, data[i]],
+            i == data.length - 1,
+            chart.series[i].data.length > config.maxLength
+          )
+        }
+      }
+
+    }
+  }
+})
