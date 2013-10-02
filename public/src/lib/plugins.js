@@ -140,9 +140,11 @@
     } else {
       if (typeof amount !== 'number') {
         amount = (1 - n) * clamp(Math.random() * n, 0.1, 0.95);
+        n = clamp(n + amount, 0, 0.994);
+      } else {
+        n = clamp(n + amount, 0, 1);
       }
 
-      n = clamp(n + amount, 0, 0.994);
       return NProgress.set(n);
     }
   };
