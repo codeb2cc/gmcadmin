@@ -209,11 +209,11 @@ angular.module('gmcadmin.directives', [])
       })
 
       scope.$watch('slabsStats', function (slabs) {
-        if (slabs && slabs.length) {
+        if (slabs && Object.keys(slabs).length) {
           var stats = { Malloced: 0, Used: 0, Wasted: 0, Free: 0 }
-          for (var i = 0; i < slabs.length; i++) {
-            stats.Malloced += slabs[i].Malloced
-            stats.Wasted += slabs[i].Wasted
+          for (var k in slabs) {
+            stats.Malloced += slabs[k].Malloced
+            stats.Wasted += slabs[k].Wasted
           }
           stats.Used = stats.Malloced - stats.Wasted
           stats.Free = maxbytes - stats.Malloced

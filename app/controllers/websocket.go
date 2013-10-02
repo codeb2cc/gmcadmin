@@ -2,7 +2,7 @@ package controllers
 
 import (
     "net"
-    "sort"
+    "strconv"
     "encoding/json"
     "code.google.com/p/go.net/websocket"
     "github.com/robfig/revel"
@@ -78,34 +78,24 @@ func (c WebSocket) Socket(host string, ws *websocket.Conn) revel.Result {
         case cmdSlabStats:
             response.Cmd = cmdSlabStats
             if stats, err := mcClient.StatsSlabs(addr); err == nil {
-                var keys []int
-                var values []interface{}
-                for key := range stats {
-                    keys = append(keys, key)
-                }
-                sort.Ints(keys)
-                for _, key := range keys {
-                    values = append(values, stats[key])
+                strMap := make(map[string]interface{})
+                for i, value := range stats {
+                    strMap[strconv.Itoa(i)] = value
                 }
                 response.Status = "success"
-                response.Data = values
+                response.Data = strMap
             } else {
                 revel.WARN.Print(err)
             }
         case cmdItemStats:
             response.Cmd = cmdItemStats
             if stats, err := mcClient.StatsItems(addr); err == nil {
-                var keys []int
-                var values []interface{}
-                for key := range stats {
-                    keys = append(keys, key)
-                }
-                sort.Ints(keys)
-                for _, key := range keys {
-                    values = append(values, stats[key])
+                strMap := make(map[string]interface{})
+                for i, value := range stats {
+                    strMap[strconv.Itoa(i)] = value
                 }
                 response.Status = "success"
-                response.Data = values
+                response.Data = strMap
             } else {
                 revel.WARN.Print(err)
             }

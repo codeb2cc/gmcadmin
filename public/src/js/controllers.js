@@ -40,8 +40,9 @@ angular.module('gmcadmin.controllers', [])
             break
           case 'slabs':
             var slab = null
-            for (var i = 0; i < data.Data.length; i++) {
-              slab = data.Data[i]
+            for (var k in data.Data) {
+              slab = data.Data[k]
+              slab.Index = parseInt(k, 10)
               slab.Malloced = slab.TotalChunks * slab.ChunkSize
               slab.Wasted = (slab.Malloced < slab.MemRequested) ? ((slab.TotalChunks - slab.UsedChunks) * slab.ChunkSize) : (slab.Malloced - slab.MemRequested)
             }
@@ -86,7 +87,7 @@ angular.module('gmcadmin.controllers', [])
 , function (CONF, $scope, $timeout, $location, socketClient) {
     $scope.slabsStats = null
     $scope.itemsStats = null
-    $scope.slabIndex = 0
+    $scope.slabIndex = null
 
     if (!Modernizr.websockets) {
       $location.path('/error')
@@ -99,10 +100,14 @@ angular.module('gmcadmin.controllers', [])
         switch (data.Cmd) {
           case 'slabs':
             var slab = null
-            for (var i = 0; i < data.Data.length; i++) {
-              slab = data.Data[i]
+            for (var k in data.Data) {
+              slab = data.Data[k]
+              slab.Index = parseInt(k, 10)
               slab.Malloced = slab.TotalChunks * slab.ChunkSize
               slab.Wasted = (slab.Malloced < slab.MemRequested) ? ((slab.TotalChunks - slab.UsedChunks) * slab.ChunkSize) : (slab.Malloced - slab.MemRequested)
+              if (!$scope.slabIndex) {
+                $scope.slabIndex = slab.Index
+              }
             }
             $scope.slabsStats = data.Data
             break
@@ -318,8 +323,9 @@ angular.module('gmcadmin.controllers', [])
             var slab = null
             var mallocedMem = 0
             var wastedMem = 0
-            for (var i = 0; i < data.Data.length; i++) {
-              slab = data.Data[i]
+            for (var k in data.Data) {
+              slab = data.Data[k]
+              slab.Index = parseInt(k, 10)
               slab.Malloced = slab.TotalChunks * slab.ChunkSize
               slab.Wasted = (slab.Malloced < slab.MemRequested) ? ((slab.TotalChunks - slab.UsedChunks) * slab.ChunkSize) : (slab.Malloced - slab.MemRequested)
               mallocedMem += slab.Malloced
@@ -342,7 +348,6 @@ angular.module('gmcadmin.controllers', [])
       NProgress.start()
       socketClient.send('server')
       socketClient.send('slabs')
-      socketClient.send('items')
     }
 
     $scope.$on('$routeChangeStart', function () {

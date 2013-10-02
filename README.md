@@ -22,7 +22,7 @@ or use `go get`:
     go get -u github.com/robfig/revel/revel
     go get -u github.com/codeb2cc/gomemcache/memcache
 
-Use [Grunt](http://gruntjs.com/) to build the web app:
+Use [Grunt](http://gruntjs.com/) to build the web app. Remember to modify the websocket url and other configs in `public/src/js/app.js` before building.
 
     cd $GOPATH/path/to/gmcadmin
     cd public

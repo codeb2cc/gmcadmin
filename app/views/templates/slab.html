@@ -3,7 +3,7 @@
     <div class="widget widget-table">
       <div class="widget-header">
         <i class="glyphicon glyphicon-info-sign"></i>
-        <h3>Slab #<span ng-bind="slabIndex + 1"></span> Info</h3>
+        <h3>Slab #<span ng-bind="slabIndex"></span> Info</h3>
       </div>
       <div class="widget-content">
         <table class="table table-bordered table-striped">
@@ -71,7 +71,7 @@
     <div class="widget widget-chart">
       <div class="widget-header">
         <span class="glyphicon glyphicon-stats"></span>
-        <h3>Slab #<span ng-bind="slabIndex + 1"></span> Requests &amp; Memory</h3>
+        <h3>Slab #<span ng-bind="slabIndex"></span> Requests &amp; Memory</h3>
       </div>
       <div class="widget-content">
         <div class="chart-container" ng-model="slabsStats" chart-stats-slab></div>
@@ -102,8 +102,8 @@
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="stats in slabsStats" ng-class="$index == slabIndex ? 'active' : ''" ng-click="activeSlab($event, $index)">
-                <td ng-bind="$index + 1"></td>
+              <tr ng-repeat="stats in slabsStats" ng-class="stats.Index == slabIndex ? 'active' : ''" ng-click="activeSlab($event, stats.Index)">
+                <td ng-bind="stats.Index"></td>
                 <td ng-bind="stats.ChunkSize | unitResize"></td>
                 <td ng-bind="stats.UsedChunks"></td>
                 <td ng-bind="stats.FreeChunks"></td>
