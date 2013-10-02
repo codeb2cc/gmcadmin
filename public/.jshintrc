@@ -2,5 +2,5 @@
   "globalstrict": true,
   "browser": true,
   "jquery": true,
-  "globals": { "angular": true, "Highcharts": true }
+  "globals": { "angular": true, "Highcharts": true, "NProgress": true }
 }

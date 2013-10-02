@@ -90,6 +90,7 @@ module.exports = function(grunt) {
       },
       app: {
         src: [
+          'src/lib/plugins.js',
           'src/js/services.js',
           'src/js/filters.js',
           'src/js/directives.js',

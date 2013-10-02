@@ -14,7 +14,10 @@ angular.module('gmcadmin', [
   $routeProvider.when('/slab', { templateUrl: '/tpl/slab.html', controller: 'SlabCtrl' })
   $routeProvider.when('/live', { templateUrl: '/tpl/live.html', controller: 'LiveCtrl' })
   $routeProvider.otherwise({ redirectTo: '/server' })
+
+  NProgress.start()
 }])
 .constant('CONF', {
   'websocket': 'ws://localhost.com:8000/ws/socket'
 })
+

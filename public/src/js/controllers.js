@@ -23,6 +23,7 @@ angular.module('gmcadmin.controllers', [])
     $scope.slabsStats = null
 
     socketClient.callbacks.message = function (evt, data) {
+      NProgress.inc(0.2)
       $scope.$apply(function () {
         switch (data.Cmd) {
           case 'server':
@@ -48,10 +49,12 @@ angular.module('gmcadmin.controllers', [])
       var readyState = $scope.serverStats !== null &&
             $scope.settingsStats !== null &&
             $scope.slabsStats !== null
+      if (readyState) { NProgress.done() }
       return readyState
     }
 
     $scope.update = function () {
+      NProgress.start()
       socketClient.send('server')
       socketClient.send('settings')
       socketClient.send('slabs')
@@ -79,6 +82,7 @@ angular.module('gmcadmin.controllers', [])
     $scope.slabIndex = 0
 
     socketClient.callbacks.message = function (evt, data) {
+      NProgress.inc(0.3)
       $scope.$apply(function () {
         switch (data.Cmd) {
           case 'slabs':
@@ -100,10 +104,12 @@ angular.module('gmcadmin.controllers', [])
     $scope.ready = function () {
       var readyState = $scope.slabsStats !== null &&
             $scope.itemsStats !== null
+      if (readyState) { NProgress.done() }
       return readyState
     }
 
     $scope.update = function () {
+      NProgress.start()
       socketClient.send('slabs')
       socketClient.send('items')
     }
@@ -136,7 +142,7 @@ angular.module('gmcadmin.controllers', [])
       chartType: 'areaspline'
     , plotOptions: { areaspline: { stacking: 'normal' } }
     , colors: ['#C84D64', '#4968AB']
-    , dataLabels: ['Wasted Memory', 'Used Memory']
+    , dataLabels: ['Wasted', 'Used']
     , maxLength: 30
     , unit: ' MB'
     , watch: 'memStatsData'
@@ -239,6 +245,7 @@ angular.module('gmcadmin.controllers', [])
     }
 
     socketClient.callbacks.message = function (evt, data) {
+      NProgress.inc(0.3)
       $scope.$apply(function () {
         var time = (new Date()).getTime()
         switch (data.Cmd) {
@@ -310,10 +317,12 @@ angular.module('gmcadmin.controllers', [])
     $scope.ready = function () {
       var readyState = $scope.serverStats !== null &&
             $scope.slabsStats !== null
+      if (readyState) { NProgress.done() }
       return readyState
     }
 
     $scope.update = function () {
+      NProgress.start()
       socketClient.send('server')
       socketClient.send('slabs')
       socketClient.send('items')
