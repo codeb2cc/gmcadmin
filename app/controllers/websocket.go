@@ -27,7 +27,7 @@ var (
 )
 
 func (c WebSocket) Socket(host string, ws *websocket.Conn) revel.Result {
-    mcServer := "127.0.0.1:11211"
+    mcServer := revel.Config.StringDefault("memcached", "127.0.0.1:11211")
     mcClient := memcache.New(mcServer)
     addr, err := net.ResolveTCPAddr("tcp", mcServer)
 
@@ -64,12 +64,16 @@ func (c WebSocket) Socket(host string, ws *websocket.Conn) revel.Result {
             if stats, err := mcClient.Stats(addr); err == nil {
                 response.Status = "success"
                 response.Data = stats
+            } else {
+                revel.WARN.Print(err)
             }
         case cmdSettingsStats:
             response.Cmd = cmdSettingsStats
             if stats, err := mcClient.StatsSettings(addr); err == nil {
                 response.Status = "success"
                 response.Data = stats
+            } else {
+                revel.WARN.Print(err)
             }
         case cmdSlabStats:
             response.Cmd = cmdSlabStats
@@ -85,6 +89,8 @@ func (c WebSocket) Socket(host string, ws *websocket.Conn) revel.Result {
                 }
                 response.Status = "success"
                 response.Data = values
+            } else {
+                revel.WARN.Print(err)
             }
         case cmdItemStats:
             response.Cmd = cmdItemStats
@@ -100,6 +106,8 @@ func (c WebSocket) Socket(host string, ws *websocket.Conn) revel.Result {
                 }
                 response.Status = "success"
                 response.Data = values
+            } else {
+                revel.WARN.Print(err)
             }
         default:
             revel.INFO.Print("Receive unknown message: ", msg)

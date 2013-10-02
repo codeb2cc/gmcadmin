@@ -18,7 +18,7 @@ angular.module('gmcadmin.services', [])
   }
 
   var closeHandler = function (evt) {
-    connected = false 
+    connected = false
 
     if ("function" === typeof client.callbacks.close) {
       client.callbacks.close(evt)
@@ -26,7 +26,7 @@ angular.module('gmcadmin.services', [])
   }
 
   var errorHandler = function (evt) {
-    connected = false 
+    connected = false
     console.warn(evt)
 
     if ("function" === typeof client.callbacks.error) {
@@ -37,7 +37,7 @@ angular.module('gmcadmin.services', [])
   var messageHandler = function (evt) {
     try {
       var data = JSON.parse(evt.data)
-      if ("function" === typeof client.callbacks.message) {
+      if (data.Status === "success" && "function" === typeof client.callbacks.message) {
         client.callbacks.message(evt, data)
       }
     } catch (exc) {
