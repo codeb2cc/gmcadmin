@@ -16,11 +16,17 @@ angular.module('gmcadmin.controllers', [])
   'CONF'
 , '$scope'
 , '$timeout'
+, '$location'
 , 'socketClient'
-, function (CONF, $scope, $timeout, socketClient) {
+, function (CONF, $scope, $timeout, $location, socketClient) {
     $scope.serverStats = null
     $scope.settingsStats = null
     $scope.slabsStats = null
+
+    if (!Modernizr.websockets) {
+      $location.path('/error')
+      return
+    }
 
     socketClient.callbacks.message = function (evt, data) {
       NProgress.inc(0.3)
@@ -75,11 +81,17 @@ angular.module('gmcadmin.controllers', [])
   'CONF'
 , '$scope'
 , '$timeout'
+, '$location'
 , 'socketClient'
-, function (CONF, $scope, $timeout, socketClient) {
+, function (CONF, $scope, $timeout, $location, socketClient) {
     $scope.slabsStats = null
     $scope.itemsStats = null
     $scope.slabIndex = 0
+
+    if (!Modernizr.websockets) {
+      $location.path('/error')
+      return
+    }
 
     socketClient.callbacks.message = function (evt, data) {
       NProgress.inc(0.45)
@@ -133,10 +145,16 @@ angular.module('gmcadmin.controllers', [])
   'CONF'
 , '$scope'
 , '$timeout'
+, '$location'
 , 'socketClient'
-, function (CONF, $scope, $timeout, socketClient) {
+, function (CONF, $scope, $timeout, $location, socketClient) {
     $scope.serverStats = null
     $scope.slabsStats = null
+
+    if (!Modernizr.websockets) {
+      $location.path('/error')
+      return
+    }
 
     $scope.memStatsLive = {
       chartType: 'areaspline'
@@ -337,5 +355,20 @@ angular.module('gmcadmin.controllers', [])
       }, CONF.liveInterval)
       $scope.update()
     }, 0)
+  }
+])
+.controller('ErrorCtrl', [
+  'CONF'
+, '$scope'
+, '$location'
+, function (CONF, $scope, $location) {
+    NProgress.remove()
+
+    if (!Modernizr.websockets) {
+      $scope.errorTitle = "Require Websocket Support"
+      $scope.errorDetail = "WebSocket is a protocol providing full-duplex communications channels over a single TCP connection."
+    } else {
+      $location.path('/')
+    }
   }
 ])

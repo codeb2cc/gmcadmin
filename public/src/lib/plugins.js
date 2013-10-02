@@ -187,6 +187,7 @@
   NProgress.remove = function() {
     $('html').removeClass('nprogress-busy');
     $('#nprogress').remove();
+    NProgress.status = null;
   };
 
   /**
