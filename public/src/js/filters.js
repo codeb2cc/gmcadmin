@@ -29,4 +29,9 @@ angular.module('gmcadmin.filters', [
     }
     return value.toFixed(1) + ' ' + units[i]
   }
+}).filter('default', function () {
+  return function (value, defaultValue) {
+    var undefOrNull = null
+    return (value != undefOrNull) ? value : defaultValue
+  }
 })
