@@ -1,0 +1,14 @@
+language: go
+
+go:
+    - 1.1
+    - tip
+
+services:
+    - memcached
+
+install:
+    - go get -v github.com/robfig/revel/revel
+
+script:
+    - revel test github.com/codeb2cc/gmcadmin

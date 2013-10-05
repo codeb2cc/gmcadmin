@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/codeb2cc/gmcadmin.png)](https://travis-ci.org/codeb2cc/gmcadmin)
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/codeb2cc/gmcadmin/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
 Go Memcached Admin
