@@ -88,21 +88,17 @@
       </div>
       <div class="widget-content">
         <div class="table-responsive">
-          <table class="table table-bordered table-striped table-hover">
+          <table class="table table-bordered table-striped table-hover" id="slab_stats">
             <thead>
               <tr>
-                <th>#</th>
-                <th>Chunk Size</th>
-                <th>Used Chunk</th>
-                <th>Free Chunk</th>
-                <th>Total Chunk</th>
-                <th>Malloced</th>
-                <th>Wasted</th>
-                <th>Requested</th>
+                <th ng-repeat="header in slabHeaders" ng-class="slabOrder === header[0] ? 'active' : ''" ng-click="sort(header[0])">
+                  <span ng-bind="header[1]"></span>
+                  <i class="pull-right glyphicon" ng-class="slabReverse ? 'glyphicon-sort-by-order-alt' : 'glyphicon-sort-by-order'"></i>
+                </th>
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="stats in slabsStats" ng-class="stats.Index == slabIndex ? 'active' : ''" ng-click="activeSlab($event, stats.Index)">
+              <tr ng-repeat="stats in slabsStats | orderBy:$parent.slabOrder:$parent.slabReverse" ng-class="stats.Index == slabIndex ? 'active' : ''" ng-click="activeSlab($event, stats.Index)">
                 <td ng-bind="stats.Index"></td>
                 <td ng-bind="stats.ChunkSize | unitResize"></td>
                 <td ng-bind="stats.UsedChunks"></td>

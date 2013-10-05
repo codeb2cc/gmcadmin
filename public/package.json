@@ -1,6 +1,6 @@
 {
   "name": "gmcadmin",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Go Memcached Admin",
   "homepage": "http://github.com/codeb2cc/gmcadmin",
   "author": {

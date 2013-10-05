@@ -89,6 +89,20 @@ angular.module('gmcadmin.controllers', [])
     $scope.itemsStats = null
     $scope.slabIndex = null
 
+    $scope.slabHeaders = [
+      ['Index', '#']
+    , ['ChunkSize', 'Chunk Size']
+    , ['UsedChunks', 'Used Chunks']
+    , ['FreeChunks', 'Free Chunks']
+    , ['TotalChunks', 'Total Chunks']
+    , ['Malloced', 'Malloced']
+    , ['Wasted', 'Wasted']
+    , ['MemRequested', 'Requested']
+    ]
+
+    $scope.slabOrder = 'Index'
+    $scope.slabReverse = false
+
     if (!Modernizr.websockets) {
       $location.path('/error')
       return
@@ -109,7 +123,11 @@ angular.module('gmcadmin.controllers', [])
                 $scope.slabIndex = slab.Index
               }
             }
-            $scope.slabsStats = data.Data
+            $scope.slabsStats = []
+            angular.forEach(data.Data, function (val, key) {
+              // Convert to array for sorting
+              $scope.slabsStats.push(val)
+            })
             break
           case 'items':
             $scope.itemsStats = data.Data
@@ -122,6 +140,14 @@ angular.module('gmcadmin.controllers', [])
       var readyState = $scope.slabsStats !== null &&
             $scope.itemsStats !== null
       return readyState
+    }
+
+    $scope.sort = function (order) {
+      if ($scope.slabOrder === order) {
+        $scope.slabReverse = !$scope.slabReverse
+      } else {
+        $scope.slabOrder = order
+      }
     }
 
     $scope.update = function () {

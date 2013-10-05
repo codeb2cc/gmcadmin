@@ -422,6 +422,29 @@ body {
   }
 }
 
+#slab_stats {
+  th {
+    cursor: pointer;
+
+    &:hover {
+      color: #FF9900;
+    }
+
+    > i {
+      display: none;
+    }
+  }
+
+  th.active {
+    background-color: initial;
+    color: #FF9900;
+
+    > i {
+      display: inline-block;
+    }
+  }
+}
+
 #slab_table {
   max-height: 300px;
   padding-right: 0;
