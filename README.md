@@ -1,7 +1,7 @@
 Go Memcached Admin
 ==================
 
-Graphic monitor for memcached. Powered by [Golang](http://golang.org/).
+Graphic monitor for memcached. Powered by [Golang](http://golang.org/). [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/codeb2cc/gmcadmin/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
 ![Screenshot](https://raw.github.com/codeb2cc/gmcadmin/master/screenshot.png "gmcadmin")
 
@@ -38,7 +38,7 @@ Before starting the app, you may want to open `conf/app.conf` and modify the mem
 
 or
 
-    revel run github.com/codeb2cc/gmcadmin
+    revel run github.com/codeb2cc/gmcadmin prod
 
 
 Demo
