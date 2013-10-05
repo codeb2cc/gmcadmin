@@ -34,3 +34,65 @@
     </div>
   </div>
 </div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="widget widget-tool">
+      <div class="widget-header">
+        <span class="glyphicon glyphicon-floppy-disk"></span>
+        <h3>Slab Size Calculator</h3>
+      </div>
+      <div class="widget-content">
+        <form class="form-horizontal" role="form" ng-submit="calculateSlab()">
+          <div class="form-group">
+            <label class="control-label col-md-2" for="slab_min">Minimum</label>
+            <div class="col-md-3">
+              <input class="form-control" id="slab_min" type="number" placeholder="48" ng-model="slabMin">
+            </div>
+            <div class="col-md-6">
+              <span class="help-block">Minimum space allocated for key+value+flags</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-2" for="slab_factor">Factor</label>
+            <div class="col-md-3">
+              <input class="form-control" id="slab_factor" type="number" step="0.1" placeholder="1.25" ng-model="slabFactor">
+            </div>
+            <div class="col-md-6">
+              <span class="help-block">Chunk size growth factor</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-2" for="slab_max">Max</label>
+            <div class="col-md-3">
+              <input class="form-control" id="slab_max" type="number" placeholder="1048576" ng-model="slabMax">
+            </div>
+            <div class="col-md-6">
+              <span class="help-block">Size of slab page (max item size)</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-2" for="slab_max">Slabs</label>
+            <div class="col-md-9" id="slab_table">
+              <table class="table table-bordered table-condensed">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Chunk Size</th>
+                    <th>Chunk Per Page</th>
+                  </tr>
+                  <tbody>
+                    <tr ng-repeat="slab in slabInfo">
+                      <td ng-bind="$index + 1"></td>
+                      <td ng-bind="slab"></td>
+                      <td ng-bind="$parent.slabMax / slab | number:0"></td>
+                    </tr>
+                  </tbody>
+                </thead>
+              </table>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

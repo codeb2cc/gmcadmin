@@ -1,7 +1,9 @@
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/codeb2cc/gmcadmin/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
 Go Memcached Admin
 ==================
 
-Graphic monitor for memcached. Powered by [Golang](http://golang.org/). [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/codeb2cc/gmcadmin/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+Graphic monitor for memcached. Powered by [Golang](http://golang.org/).
 
 ![Screenshot](https://raw.github.com/codeb2cc/gmcadmin/master/screenshot.png "gmcadmin")
 

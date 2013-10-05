@@ -366,8 +366,9 @@ angular.module('gmcadmin.controllers', [])
 .controller('ToolCtrl', [
   'CONF'
 , '$scope'
+, '$timeout'
 , '$http'
-, function (CONF, $scope, $http) {
+, function (CONF, $scope, $timeout, $http) {
     NProgress.done()
 
     $scope.queryKey = ''
@@ -401,6 +402,39 @@ angular.module('gmcadmin.controllers', [])
       }
     }
 
+    $scope.slabMin = 48
+    $scope.slabFactor = 1.25
+    $scope.slabMax = 1048576
+
+    $scope.slabInfo = []
+
+    $scope.calculateSlab = function () {
+      if ($scope.slabMin && $scope.slabFactor && $scope.slabMax) {
+        $scope.slabInfo = [ $scope.slabMin + 48 ]     // Minimum size plus sizeof(item)
+        var i = 0
+        var size = null
+        while ($scope.slabInfo[i] < Math.ceil($scope.slabMax / $scope.slabFactor)) {
+          size = $scope.slabInfo[i] * $scope.slabFactor
+          if (size % 8) {   
+            size += 8 - (size % 8)    // Always 8-bytes aligned
+          }
+          $scope.slabInfo.push(parseInt(size, 10))
+          i += 1
+        }
+
+        // Set max slab size to max page size
+        $scope.slabInfo.pop()
+        $scope.slabInfo.push($scope.slabMax)
+      }
+    }
+
+    var promise = null
+    $scope.$watch(function () {
+      return '' + $scope.slabMin + $scope.slabFactor + $scope.slabMax
+    }, function () {
+      $timeout.cancel(promise)
+      promise = $timeout($scope.calculateSlab, 1500)
+    })
   }
 ])
 .controller('ErrorCtrl', [
