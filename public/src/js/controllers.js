@@ -8,7 +8,7 @@ angular.module('gmcadmin.controllers', [])
 , '$location'
 , function ($scope, $location) {
     $scope.navClass = function (nav) {
-      return $location.path() == nav ? 'active' : ''
+      return $location.path() === nav ? 'active' : ''
     }
   }
 ])

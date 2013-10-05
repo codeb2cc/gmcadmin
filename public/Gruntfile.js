@@ -25,7 +25,7 @@ module.exports = function(grunt) {
       },
       javascript: {
         files: ['src/js/*.js'],
-        tasks: ['concat']
+        tasks: ['jshint:app', 'concat']
       }
     },
 
@@ -61,16 +61,21 @@ module.exports = function(grunt) {
 
     recess: {
       options: {
-        compile: true,
-        compress: false
+        compile: true
       },
-      bootstrap: {
-        src: ['src/lib/bootstrap/less/bootstrap.less'],
-        dest: 'dist/css/bootstrap.css'
+      dev: {
+        options: { compress: false },
+        files: {
+          'dist/css/bootstrap.css': ['src/lib/bootstrap/less/bootstrap.less'],
+          'dist/css/app.css': ['src/css/app.less']
+        }
       },
-      app: {
-        src: ['src/css/app.less'],
-        dest: 'dist/css/app.css'
+      release: {
+        options: { compress: true },
+        files: {
+          'dist/css/bootstrap.css': ['src/lib/bootstrap/less/bootstrap.less'],
+          'dist/css/app.css': ['src/css/app.less']
+        }
       }
     },
 
@@ -79,25 +84,21 @@ module.exports = function(grunt) {
         banner: '<%= banner %>',
         stripBanners: true
       },
-      bootstrap: {
-        src: [
-          'src/lib/bootstrap/js/transition.js',
-          'src/lib/bootstrap/js/button.js',
-          'src/lib/bootstrap/js/dropdown.js',
-          'src/lib/bootstrap/js/modal.js'
-        ],
-        dest: 'dist/js/bootstrap.js'
-      },
       app: {
-        src: [
-          'src/lib/plugins.js',
-          'src/js/services.js',
-          'src/js/filters.js',
-          'src/js/directives.js',
-          'src/js/controllers.js',
-          'src/js/app.js'
-        ],
-        dest: 'dist/js/app.js'
+        files: {
+          'dist/js/bootstrap.js': [
+            'src/lib/bootstrap/js/transition.js',
+            'src/lib/bootstrap/js/button.js'
+          ],
+          'dist/js/app.js': [
+            'src/lib/plugins.js',
+            'src/js/services.js',
+            'src/js/filters.js',
+            'src/js/directives.js',
+            'src/js/controllers.js',
+            'src/js/app.js'
+          ]
+        }
       }
     },
 
@@ -109,13 +110,11 @@ module.exports = function(grunt) {
         },
         preserveComments: false
       },
-      bootstrap: {
-        src: '<%= concat.bootstrap.dest %>',
-        dest: '<%= concat.bootstrap.dest %>',
-      },
       app: {
-        src: '<%= concat.app.dest %>',
-        dest: '<%= concat.app.dest %>',
+        files: {
+          'dist/js/bootstrap.js': 'dist/js/bootstrap.js',
+          'dist/js/app.js': 'dist/js/app.js'
+        }
       }
     },
 
@@ -129,14 +128,18 @@ module.exports = function(grunt) {
         noarg: true,
         sub: true,
         undef: true,
-        unused: true,
+        unused: false,
         boss: true,
         eqnull: true,
         browser: true,
-        globals: {}
+        globalstrict: true,
+        globals: { "Modernizr": true, "angular": true, "Highcharts": true, "NProgress": true }
       },
       gruntfile: {
         src: 'Gruntfile.js'
+      },
+      app: {
+        src: 'src/js/*.js'
       }
     },
 
@@ -162,7 +165,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-recess');
 
   // Default task.
-  grunt.registerTask('default', ['jshint', 'clean', 'copy:dev', 'recess', 'concat']);
-  grunt.registerTask('release', ['jshint', 'clean', 'copy:release', 'recess', 'concat', 'uglify']);
+  grunt.registerTask('default', ['jshint', 'clean', 'copy:dev', 'recess:dev', 'concat']);
+  grunt.registerTask('release', ['jshint', 'clean', 'copy:release', 'recess:release', 'concat', 'uglify']);
 
 };

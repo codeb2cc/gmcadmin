@@ -426,7 +426,7 @@ angular.module('gmcadmin.directives', [])
         for (var i = 0; i < data.length; i++) {
           chart.series[i].addPoint(
             [time, data[i]],
-            i == data.length - 1,
+            i === data.length - 1,
             chart.series[i].data.length > config.maxLength
           )
         }

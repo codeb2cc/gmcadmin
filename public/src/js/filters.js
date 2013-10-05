@@ -31,7 +31,6 @@ angular.module('gmcadmin.filters', [
   }
 }).filter('default', function () {
   return function (value, defaultValue) {
-    var undefOrNull = null
-    return (value != undefOrNull) ? value : defaultValue
+    return (value != null) ? value : defaultValue
   }
 })
