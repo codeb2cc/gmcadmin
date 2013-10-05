@@ -6,14 +6,13 @@ import (
     "encoding/json"
     "code.google.com/p/go.net/websocket"
     "github.com/robfig/revel"
-    "github.com/codeb2cc/gomemcache/memcache"
 )
 
 type WebSocket struct {
     *revel.Controller
 }
 
-type Message struct {
+type WebSocketMessage struct {
     Status string
     Cmd string
     Data interface{}
@@ -27,8 +26,6 @@ var (
 )
 
 func (c WebSocket) Socket(host string, ws *websocket.Conn) revel.Result {
-    mcServer := revel.Config.StringDefault("memcached", "127.0.0.1:11211")
-    mcClient := memcache.New(mcServer)
     addr, err := net.ResolveTCPAddr("tcp", mcServer)
 
     if err != nil {
@@ -57,7 +54,7 @@ func (c WebSocket) Socket(host string, ws *websocket.Conn) revel.Result {
             return nil
         }
 
-        response := Message{"error", "", nil}
+        response := WebSocketMessage{"error", "", nil}
         switch msg {
         case cmdServerStats:
             response.Cmd = cmdServerStats

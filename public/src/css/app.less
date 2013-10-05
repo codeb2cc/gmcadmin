@@ -253,7 +253,7 @@ body {
     }
   }
 
-  &.widget-stats, &.widget-chart {
+  &.widget-stats, &.widget-chart, &.widget-tool {
     .widget-content {
       background: #E9E9E9;
       background:-moz-linear-gradient(top, #FAFAFA 0%, #E9E9E9 100%);
@@ -268,6 +268,21 @@ body {
   &.widget-chart {
     .widget-content {
       padding: 0;
+    }
+  }
+
+  &.widget-tool {
+    .btn-primary {
+      background-color: #FF9900;
+      border-color: #FF9900;
+    }
+
+    .form-control {
+      border-radius: 0;
+    }
+
+    .help-block {
+      margin-bottom: 9px;
     }
   }
 }

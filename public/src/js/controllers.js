@@ -213,6 +213,7 @@ angular.module('gmcadmin.controllers', [])
       ]
     , dataLabels: ['Get', 'Set', 'Delete', 'Cas', 'Incr/Decr', 'Touch', 'Flush']
     , maxLength: 30
+    , unit: ' q/s'
     , watch: 'reqStatsData'
     }
     $scope.reqStatsData = []
@@ -360,6 +361,46 @@ angular.module('gmcadmin.controllers', [])
       }, CONF.liveInterval)
       $scope.update()
     }, 0)
+  }
+])
+.controller('ToolCtrl', [
+  'CONF'
+, '$scope'
+, '$http'
+, function (CONF, $scope, $http) {
+    NProgress.done()
+
+    $scope.queryKey = ''
+    $scope.queryResult = null
+    $scope.queryFlag = -1
+
+    $scope.queryState = function () {
+      switch ($scope.queryFlag) {
+        case 0:
+          return [true, 'has-success']
+        case 1:
+          return [false, 'has-error']
+        default:
+          return [true, '']
+      }
+    }
+
+    $scope.cacheGet = function () {
+      if (this.queryKey) {
+        $http({ method: 'GET', url: '/cache?key=' + encodeURIComponent(this.queryKey) })
+          .success(function (data, status, headers, config) {
+            if (status === 200 && data.Status === 'success') {
+              $scope.queryFlag = 0
+              $scope.queryResult = data.Data
+            } else {
+              $scope.queryFlag = 1
+              $scope.queryResult = null
+            }
+          })
+          .error(function (data, status, headers, config) {})
+      }
+    }
+
   }
 ])
 .controller('ErrorCtrl', [
