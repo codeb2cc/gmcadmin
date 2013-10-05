@@ -8,7 +8,7 @@
       <div class="widget-content">
         <form class="form-horizontal" role="form" ng-submit="cacheGet()">
           <div class="form-group" ng-class="queryState()[1]">
-            <label class="control-label col-md-2" for="cache_value">Key: </label>
+            <label class="control-label col-md-2" for="cache_value">Key</label>
             <div class="input-group col-md-5">
               <input type="text" class="form-control" id="cache_key" ng-model="queryKey">
               <span class="input-group-btn">
@@ -18,9 +18,15 @@
             <span class="help-block" ng-hide="queryState()[0]">Item not found!</span>
           </div>
           <div class="form-group">
-            <label class="control-label col-md-2" for="cache_value">Value: </label>
+            <label class="control-label col-md-2" for="cache_value">Value</label>
             <div class="col-md-9">
               <textarea class="form-control" id="cache_value" rows="5" style="resize: vertical;" ng-model="queryResult.Value"></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-2" for="cache_encoding">Encoding</label>
+            <div class="col-md-9">
+              <p class="form-control-static" id="cache_encoding" ng-bind="queryResult.Encoding"></p>
             </div>
           </div>
         </form>

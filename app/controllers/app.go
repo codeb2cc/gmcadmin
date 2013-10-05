@@ -1,6 +1,8 @@
 package controllers
 
 import (
+    "unicode/utf8"
+    "encoding/base64"
     "github.com/robfig/revel"
     "github.com/codeb2cc/gomemcache/memcache"
 )
@@ -17,10 +19,21 @@ type Response struct {
 type CacheItem struct {
     Key string
     Value string
+    Encoding string
 }
 
-func parseItem (item *memcache.Item) *CacheItem {
-    return &CacheItem{item.Key, string(item.Value)}
+func parseItem (i *memcache.Item) *CacheItem {
+    item := &CacheItem{Key: i.Key}
+
+    if utf8.Valid(i.Value) {
+        item.Value = string(i.Value)
+        item.Encoding = "string"
+    } else {
+        item.Value = base64.StdEncoding.EncodeToString(i.Value)
+        item.Encoding = "base64"
+    }
+
+    return item
 }
 
 func (c App) Index() revel.Result {
