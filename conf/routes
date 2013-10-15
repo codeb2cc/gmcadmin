@@ -6,6 +6,7 @@ module:testrunner
 
 GET     /                               App.Index
 GET     /cache                          App.GetCache
+GET     /allocate                       App.AllocateSlab
 
 # Favicon
 GET     /favicon.ico                    Static.Serve("public/dist/favicon.ico")

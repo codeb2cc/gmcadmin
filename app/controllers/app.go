@@ -1,10 +1,14 @@
 package controllers
 
 import (
+	"bytes"
+	"fmt"
+	"math"
+	"net"
 	"encoding/base64"
-	"github.com/codeb2cc/gomemcache/memcache"
-	"github.com/robfig/revel"
 	"unicode/utf8"
+	"github.com/robfig/revel"
+	"github.com/codeb2cc/gomemcache/memcache"
 )
 
 type App struct {
@@ -54,6 +58,108 @@ func (c App) GetCache() revel.Result {
 			response.Status = "miss"
 		}
 	}
+
+	return c.RenderJson(response)
+}
+
+type AllocationResult struct {
+	DataSize uint64
+	SlabId int
+	SlabSize uint64
+	SlabNum uint64
+	PageSize uint64
+	PageNum uint64
+	Malloced uint64
+}
+
+func (c App) AllocateSlab() revel.Result {
+	var dataSize, memSize uint64
+	c.Params.Bind(&dataSize, "size")
+	c.Params.Bind(&memSize, "mem")
+
+	response := Response{"error", nil}
+	if (dataSize == 0 || memSize == 0) {
+		return c.RenderJson(response)
+	}
+
+	// Validate execution
+	addr, err := net.ResolveTCPAddr("tcp", mcServer)
+	stats, err := mcClient.StatsSettings(addr)
+	if err != nil {
+		revel.WARN.Print(err)
+		return c.RenderJson(response)
+	}
+	if dataSize > stats.ItemSizeMax || memSize > stats.Maxbytes {
+		response.Status = "invalid"
+		return c.RenderJson(response)
+	}
+
+	r := &AllocationResult{DataSize: dataSize, SlabId: 1, SlabSize: uint64(stats.ChunkSize) + 48}
+	// Memcached item size calculation. `64 + 1` represent the key lenght we use here. Check
+	// `item_make_header` in memcached source for detail.
+	itemSize := 48 + (64 + 1) + uint64(math.Min(40, float64(len(fmt.Sprintf(" %d %d\r\n", 0, dataSize))))) + (dataSize + 2) + 8
+	for r.SlabSize < itemSize {
+		r.SlabSize = uint64(math.Ceil(float64(r.SlabSize) * stats.GrowthFactor))
+		r.SlabId += 1
+		if r.SlabSize % 8 != 0 {
+			r.SlabSize += 8 - (r.SlabSize % 8) // Always 8-bytes aligned
+		}
+	}
+	r.PageSize = stats.ItemSizeMax / r.SlabSize * r.SlabSize
+	r.PageNum = uint64(math.Max(float64(memSize / r.PageSize), 1))
+	r.SlabNum = r.PageNum * (stats.ItemSizeMax / r.SlabSize)
+	r.Malloced = r.PageSize * r.PageNum
+
+	item := &memcache.Item{Value: bytes.Repeat([]byte{'#'}, int(r.DataSize))}
+
+	const MaxConn int = 64
+
+	accuCh := make(chan bool, int(r.SlabNum))
+
+	// Allocate
+	itemCh := make(chan memcache.Item)
+	for i := 0; i < MaxConn; i++ {
+		go func(ch <-chan memcache.Item, accu chan<- bool) {
+			for item := range ch {
+				err := mcClient.Set(&item)
+				if err != nil {
+					revel.WARN.Print(err)
+				}
+				accu <- true
+			}
+		}(itemCh, accuCh)
+	}
+	for i := 0; i < int(r.SlabNum); i++ {
+		item.Key = fmt.Sprintf("%064d", i)
+		itemCh <- *item
+	}
+	for i := 0; i < int(r.SlabNum); i++ {
+		<-accuCh
+	}
+
+	// Release
+	keyCh := make(chan string)
+	for i := 0; i < MaxConn; i++ {
+		go func(ch <-chan string, accu chan<- bool) {
+			for key := range ch {
+				err := mcClient.Delete(key)
+				if err != nil {
+					revel.WARN.Print(err)
+				}
+				accu <- true
+			}
+		}(keyCh, accuCh)
+	}
+	for i := 0; i < int(r.SlabNum); i++ {
+		key := fmt.Sprintf("%064d", i)
+		keyCh <- key
+	}
+	for i := 0; i < int(r.SlabNum); i++ {
+		<-accuCh
+	}
+
+	response.Status = "success"
+	response.Data = r
 
 	return c.RenderJson(response)
 }
