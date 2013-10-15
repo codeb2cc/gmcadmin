@@ -15,27 +15,27 @@
     <script src="/public/js/modernizr.js"></script>
   </head>
   <body ng-cloak ng-app="gmcadmin">
-    {{template "header.html" .}}
+    {%template "header.html" .%}
     <div class="container">
       <div ng-view style="min-height: 600px;"></div>
       <hr>
-      {{template "footer.html" .}}
+      {%template "footer.html" .%}
     </div>
 
     <script type="text/ng-template" id="/tpl/server.html">
-{{template "templates/server.html" .}}
+{%template "templates/server.html" .%}
     </script>
     <script type="text/ng-template" id="/tpl/slab.html">
-{{template "templates/slab.html" .}}
+{%template "templates/slab.html" .%}
     </script>
     <script type="text/ng-template" id="/tpl/live.html">
-{{template "templates/live.html" .}}
+{%template "templates/live.html" .%}
     </script>
     <script type="text/ng-template" id="/tpl/tool.html">
-{{template "templates/tool.html" .}}
+{%template "templates/tool.html" .%}
     </script>
     <script type="text/ng-template" id="/tpl/error.html">
-{{template "templates/error.html" .}}
+{%template "templates/error.html" .%}
     </script>
 
     <script src="/public/js/jquery.js"></script>
