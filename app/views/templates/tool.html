@@ -38,6 +38,75 @@
   <div class="col-md-12">
     <div class="widget widget-tool">
       <div class="widget-header">
+        <span class="glyphicon glyphicon-floppy-save"></span>
+        <h3>Pre Allocate</h3>
+      </div>
+      <div class="widget-content">
+        <form class="form-horizontal" role="form" ng-submit="allocateSlab()">
+          <div class="form-group">
+            <label class="control-label col-md-2" for="allocate_size">Data Size</label>
+            <div class="col-md-3">
+              <input type="text" class="form-control" id="allocate_size" ng-model="allocateSize">
+            </div>
+            <div class="col-md-6">
+              <span class="help-block">Size of data. This IS NOT the actual size of slab</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-2" for="allocate_mem">Memory Size</label>
+            <div class="col-md-3">
+              <input type="text" class="form-control" id="allocate_mem" ng-model="allocateMem">
+            </div>
+            <div class="col-md-6">
+              <span class="help-block">Pre-allocated memory size</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-offset-2 col-md-3">
+              <button class="btn btn-primary" type="submit">Allocate</button>
+            </div>
+            <div class="col-md-6" ng-class="allocateState()[1]">
+              <span class="help-block" ng-hide="allocateState()[0]" ng-bind="allocateState()[2]"></span>
+            </div>
+          </div>
+          <div class="form-group" ng-show="allocateResult">
+            <label class="control-label col-md-2" for="allocate_result">Result</label>
+            <div class="col-md-9" id="allocate_result">
+              <table class="table table-bordered table-condensed">
+                <thead>
+                  <tr>
+                    <th>Data Size</th>
+                    <th>Slab Id</th>
+                    <th>Slab Size</th>
+                    <th>Slabs</th>
+                    <th>Page Size</th>
+                    <th>Pages</th>
+                    <th>Malloced</th>
+                  </tr>
+                  <tbody>
+                    <tr>
+                      <td ng-bind="allocateResult.DataSize"></td>
+                      <td ng-bind="allocateResult.SlabId"></td>
+                      <td ng-bind="allocateResult.SlabSize"></td>
+                      <td ng-bind="allocateResult.SlabNum"></td>
+                      <td ng-bind="allocateResult.PageSize"></td>
+                      <td ng-bind="allocateResult.PageNum"></td>
+                      <td ng-bind="allocateResult.Malloced"></td>
+                    </tr>
+                  </tbody>
+                </thead>
+              </table>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="widget widget-tool">
+      <div class="widget-header">
         <span class="glyphicon glyphicon-floppy-disk"></span>
         <h3>Slab Size Calculator</h3>
       </div>
@@ -71,7 +140,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="control-label col-md-2" for="slab_max">Slabs</label>
+            <label class="control-label col-md-2" for="slab_table">Slabs</label>
             <div class="col-md-9" id="slab_table">
               <table class="table table-bordered table-condensed">
                 <thead>

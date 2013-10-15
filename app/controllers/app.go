@@ -106,6 +106,9 @@ func (c App) AllocateSlab() revel.Result {
 		}
 	}
 	r.PageSize = stats.ItemSizeMax / r.SlabSize * r.SlabSize
+	if r.PageSize == 0 {
+		r.PageSize = stats.ItemSizeMax
+	}
 	r.PageNum = uint64(math.Max(float64(memSize / r.PageSize), 1))
 	r.SlabNum = r.PageNum * (stats.ItemSizeMax / r.SlabSize)
 	r.Malloced = r.PageSize * r.PageNum

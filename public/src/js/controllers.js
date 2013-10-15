@@ -399,6 +399,11 @@ angular.module('gmcadmin.controllers', [])
     $scope.queryResult = null
     $scope.queryFlag = -1
 
+    $scope.allocateSize = 0
+    $scope.allocateMem = 0
+    $scope.allocateFlag = -1
+    $scope.allocateResult = null
+
     $scope.queryState = function () {
       switch ($scope.queryFlag) {
         case 0:
@@ -410,16 +415,66 @@ angular.module('gmcadmin.controllers', [])
       }
     }
 
+    $scope.allocateState = function () {
+      switch ($scope.allocateFlag) {
+        case 0:
+          return [false, 'has-success', 'Success']
+        case 1:
+          return [false, 'has-warn', 'Invalid Param']
+        case 2:
+          return [false, 'has-error', 'Failed']
+        default:
+          return [true, '', '']
+      }
+    }
+
     $scope.cacheGet = function () {
       if (this.queryKey) {
+        NProgress.start()
         $http({ method: 'GET', url: '/cache?key=' + encodeURIComponent(this.queryKey) })
           .success(function (data, status, headers, config) {
+            NProgress.done()
             if (status === 200 && data.Status === 'success') {
               $scope.queryFlag = 0
               $scope.queryResult = data.Data
             } else {
               $scope.queryFlag = 1
               $scope.queryResult = null
+            }
+          })
+          .error(function (data, status, headers, config) {})
+      }
+    }
+
+    $scope.allocateSlab = function () {
+      if (this.allocateSize && this.allocateMem) {
+        NProgress.start()
+        $http({
+          method: 'POST'
+        , url: '/allocate'
+        , data: 'size=' + encodeURIComponent(this.allocateSize) + '&mem=' + encodeURIComponent(this.allocateMem)
+        , headers : {'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'}
+        })
+          .success(function (data, status, headers, config) {
+            NProgress.done()
+            if (status === 200) {
+              switch (data.Status) {
+                case 'success':
+                  $scope.allocateFlag = 0
+                  $scope.allocateResult = data.Data
+                  break
+                case 'invalid':
+                  $scope.allocateFlag = 1
+                  $scope.allocateResult = null
+                  break
+                case 'error':
+                  $scope.allocateFlag = 2
+                  $scope.allocateResult = null
+                  break
+              }
+            } else {
+              $scope.allocateFlag = 2
+              $scope.allocateResult = null
             }
           })
           .error(function (data, status, headers, config) {})
