@@ -136,14 +136,14 @@ angular.module('gmcadmin.directives', [])
       var labelFormatter = function () {
         var label = ''
         if (this.y) {
-          label = Highcharts.numberFormat(this.percentage) + '%'
+          label = '' + this.y + unit + ' / ' + Highcharts.numberFormat(this.percentage) + '%'
         }
         return label
       }
 
-      var unit = 'KB'
+      var unit = 'MB'
       var unitResize = function (value) {
-        return value > 1024 ? Math.floor(value / 1024) : value
+        return parseFloat((value / 1024 / 1024).toFixed(2))
       }
 
       var buildSeries = function (stats) {
@@ -247,9 +247,9 @@ angular.module('gmcadmin.directives', [])
         return label
       }
 
-      var unit = 'KB'
+      var unit = 'MB'
       var unitResize = function (value) {
-        return value > 1024 ? Math.floor(value / 1024) : value
+        return parseFloat((value / 1024 / 1024).toFixed(2))
       }
 
       var buildSeries = function (stats) {
