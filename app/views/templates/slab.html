@@ -100,13 +100,13 @@
             <tbody>
               <tr ng-repeat="stats in slabsStats | orderBy:$parent.slabOrder:$parent.slabReverse" ng-class="$index == slabIndex ? 'active' : ''" ng-click="activeSlab($event, $index)">
                 <td ng-bind="stats.Index"></td>
-                <td ng-bind="stats.ChunkSize | unitResize"></td>
+                <td ng-bind="stats.ChunkSize | unitResize" title="{{ stats.ChunkSize }}"></td>
                 <td ng-bind="stats.UsedChunks"></td>
                 <td ng-bind="stats.FreeChunks"></td>
                 <td ng-bind="stats.TotalChunks"></td>
-                <td ng-bind="stats.Malloced | unitResize"></td>
-                <td ng-bind="stats.Wasted | unitResize"></td>
-                <td ng-bind="stats.MemRequested | unitResize"></td>
+                <td ng-bind="stats.Malloced | unitResize" title="{{ stats.Malloced }}"></td>
+                <td ng-bind="stats.Wasted | unitResize" title="{{ stats.Wasted }}"></td>
+                <td ng-bind="stats.MemRequested | unitResize" title="{{ stats.MemRequested }}"></td>
               </tr>
             </tbody>
           </table>

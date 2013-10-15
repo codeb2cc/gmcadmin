@@ -85,13 +85,13 @@
                   </tr>
                   <tbody>
                     <tr>
-                      <td ng-bind="allocateResult.DataSize"></td>
+                      <td ng-bind="allocateResult.DataSize | unitResize" title="{{ allocateResult.DataSize }}"></td>
                       <td ng-bind="allocateResult.SlabId"></td>
-                      <td ng-bind="allocateResult.SlabSize"></td>
+                      <td ng-bind="allocateResult.SlabSize | unitResize" title="{{ allocateResult.SlabSize }}"></td>
                       <td ng-bind="allocateResult.SlabNum"></td>
-                      <td ng-bind="allocateResult.PageSize"></td>
+                      <td ng-bind="allocateResult.PageSize | unitResize" title="{{ allocateResult.PageSize }}"></td>
                       <td ng-bind="allocateResult.PageNum"></td>
-                      <td ng-bind="allocateResult.Malloced"></td>
+                      <td ng-bind="allocateResult.Malloced | unitResize" title="{{ allocateResult.Malloced }}"></td>
                     </tr>
                   </tbody>
                 </thead>
@@ -152,7 +152,7 @@
                   <tbody>
                     <tr ng-repeat="slab in slabInfo">
                       <td ng-bind="$index + 1"></td>
-                      <td ng-bind="slab"></td>
+                      <td ng-bind="slab | unitResize" title="{{ slab }}"></td>
                       <td ng-bind="$parent.slabMax / slab | number:0"></td>
                     </tr>
                   </tbody>
