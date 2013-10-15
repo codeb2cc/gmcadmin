@@ -98,7 +98,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="stats in slabsStats | orderBy:$parent.slabOrder:$parent.slabReverse" ng-class="stats.Index == slabIndex ? 'active' : ''" ng-click="activeSlab($event, stats.Index)">
+              <tr ng-repeat="stats in slabsStats | orderBy:$parent.slabOrder:$parent.slabReverse" ng-class="$index == slabIndex ? 'active' : ''" ng-click="activeSlab($event, $index)">
                 <td ng-bind="stats.Index"></td>
                 <td ng-bind="stats.ChunkSize | unitResize"></td>
                 <td ng-bind="stats.UsedChunks"></td>

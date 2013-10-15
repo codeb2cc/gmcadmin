@@ -119,11 +119,9 @@ angular.module('gmcadmin.controllers', [])
               slab.Index = parseInt(k, 10)
               slab.Malloced = slab.TotalChunks * slab.ChunkSize
               slab.Wasted = (slab.Malloced < slab.MemRequested) ? ((slab.TotalChunks - slab.UsedChunks) * slab.ChunkSize) : (slab.Malloced - slab.MemRequested)
-              if (!$scope.slabIndex) {
-                $scope.slabIndex = slab.Index
-              }
             }
             $scope.slabsStats = []
+            $scope.slabIndex = 0
             angular.forEach(data.Data, function (val, key) {
               // Convert to array for sorting
               $scope.slabsStats.push(val)
