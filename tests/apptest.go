@@ -46,6 +46,29 @@ func (t AppTest) TestCacheGet() {
 	t.AssertEqual(item["Value"], "bar")
 }
 
+func (t AppTest) TestPreallocate() {
+	data := map[string][]string{
+		"size": []string{"1024"},
+		"mem": []string{"1000000"},
+	}
+
+	t.PostForm("/allocate", data)
+	t.AssertOk()
+	t.AssertContentType("application/json")
+
+	var r interface{}
+	err := json.Unmarshal(t.ResponseBody, &r)
+	t.Assert(err == nil)
+
+	// With memcached default settings(-f 1.25 -n 48)
+	m := r.(map[string]interface{})
+	t.AssertEqual(m["Status"], "success")
+	item := m["Data"].(map[string]interface{})
+	t.AssertEqual(item["DataSize"], float64(1024))
+	t.AssertEqual(item["SlabSize"], float64(1184))
+	t.AssertEqual(item["Malloced"], float64(1047840))
+}
+
 func (t AppTest) TestWebSocket() {
 	ws := t.WebSocket("/ws/socket")
 
