@@ -14,7 +14,7 @@ Installing
 
 [Golang](http://golang.org/) and [Node.js](http://nodejs.org/) are required. Use `go get` to install:
 
-    go get -u github.com/codeb2cc/gmcadmin
+    go get github.com/codeb2cc/gmcadmin
 
 `gmcadmin` uses [Revel](http://robfig.github.io/revel/) framework and a forked version of `gomemcache`:
 
@@ -34,6 +34,15 @@ All static files go to the `public/dist` folder. The resources url prefix is `/p
 Before starting the app, you may want to open `conf/app.conf` and modify the memcached address and listening port. Default is `127.0.0.1:11211` and `8000`. Finally,
 
     revel run github.com/codeb2cc/gmcadmin prod
+
+
+Update
+======
+
+To update to the lastest code:
+
+    cd $GOPATH/src/github.com/codeb2cc/gmcadmin
+    git pull origin master
 
 
 Demo
