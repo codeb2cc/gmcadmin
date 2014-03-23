@@ -1,4 +1,4 @@
-<div class="row" ng-if="ready()">
+<div class="row">
   <div class="col-md-12">
     <div class="widget widget-stats">
       <div class="widget-content">
@@ -9,7 +9,7 @@
           </div>
           <div class="stat">
             <h4>Items</h4>
-            <span class="value" ng-bind="serverStats.CurrItems"></span>
+            <span class="value" title="{{ serverStats.CurrItems }}" ng-bind="serverStats.CurrItems | unitResize"></span>
           </div>
           <div class="stat">
             <h4>Used</h4>
@@ -20,7 +20,7 @@
     </div>
   </div>
 </div>
-<div class="row" ng-if="ready()">
+<div class="row">
   <div class="col-md-4">
     <div class="widget widget-table">
       <div class="widget-header">
@@ -31,7 +31,7 @@
         <table class="table table-bordered table-striped">
           <tbody>
             <tr title="Process id of this server process">
-              <td>PID</td>
+              <td style="width: 45%;">PID</td>
               <td ng-bind="serverStats.Pid"></td>
             </tr>
             <tr title="Time since the server started">
@@ -81,7 +81,7 @@
         <table class="table table-bordered table-striped">
           <tbody>
             <tr title="Accumulated user time for this process">
-              <td>User Time</td>
+              <td style="width: 45%;">User Time</td>
               <td><span ng-bind="serverStats.RusageUser"></span> secs</td>
             </tr>
             <tr title="Accumulated system time for this process">
@@ -105,7 +105,7 @@
         <table class="table table-bordered table-striped">
           <tbody>
             <tr title="Number of valid items removed from cache to free memory for new items">
-              <td>Eviction</td>
+              <td style="width: 45%;">Eviction</td>
               <td ng-bind="serverStats.Evictions"></td>
             </tr>
             <tr title="Number of times an entry was stored using memory from an expired entry">
@@ -135,7 +135,7 @@
         <table class="table table-bordered table-striped">
           <tbody>
             <tr title="Maximum number of bytes allows in this cache">
-              <td>Max Bytes</td>
+              <td style="width: 45%;">Max Bytes</td>
               <td ng-bind="settingsStats.Maxbytes | unitResize"></td>
             </tr>
             <tr title="Maximum number of clients allowed">
@@ -176,7 +176,7 @@
     </div>
   </div>
 </div>
-<div class="row" ng-if="ready()">
+<div class="row">
   <div class="col-md-6">
     <div class="widget widget-chart">
       <div class="widget-header">

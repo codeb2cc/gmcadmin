@@ -36,7 +36,7 @@ module.exports = function(grunt) {
         files: [
           { expand: true, cwd: 'src/', src: '*.{ico,txt}', dest: 'dist/' },
           { src: 'src/lib/modernizr/modernizr-2.6.2.js', dest: 'dist/js/modernizr.js' },
-          { src: 'src/lib/jquery/jquery-2.0.3.js', dest: 'dist/js/jquery.js' },
+          { src: 'src/lib/jquery/jquery.js', dest: 'dist/js/jquery.js' },
           { src: 'src/lib/angular/angular.js', dest: 'dist/js/angular.js' },
           { src: 'src/lib/angular/angular-route.js', dest: 'dist/js/angular-route.js' },
           { src: 'src/lib/highcharts/highcharts.js', dest: 'dist/js/highcharts.js' },
@@ -47,8 +47,8 @@ module.exports = function(grunt) {
         files: [
           { expand: true, cwd: 'src/', src: '*.{ico,txt}', dest: 'dist/' },
           { src: 'src/lib/modernizr/modernizr-2.6.2.min.js', dest: 'dist/js/modernizr.js' },
-          { src: 'src/lib/jquery/jquery-2.0.3.min.js', dest: 'dist/js/jquery.js' },
-          { src: 'src/lib/jquery/jquery-2.0.3.min.map', dest: 'dist/js/jquery.min.map' },
+          { src: 'src/lib/jquery/jquery.min.js', dest: 'dist/js/jquery.js' },
+          { src: 'src/lib/jquery/jquery.min.map', dest: 'dist/js/jquery.min.map' },
           { src: 'src/lib/angular/angular.min.js', dest: 'dist/js/angular.js' },
           { src: 'src/lib/angular/angular.min.js.map', dest: 'dist/js/angular.min.js.map' },
           { src: 'src/lib/angular/angular-route.min.js', dest: 'dist/js/angular-route.js' },

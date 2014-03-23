@@ -69,7 +69,7 @@
               <span class="help-block" ng-hide="allocateState()[0]" ng-bind="allocateState()[2]"></span>
             </div>
           </div>
-          <div class="form-group" ng-show="allocateResult">
+          <div class="form-group" ng-if="allocateResult">
             <label class="control-label col-md-2" for="allocate_result">Result</label>
             <div class="col-md-9" id="allocate_result">
               <table class="table table-bordered table-condensed">

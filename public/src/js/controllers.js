@@ -44,19 +44,12 @@ angular.module('gmcadmin.controllers', [])
               slab = data.Data[k]
               slab.Index = parseInt(k, 10)
               slab.Malloced = slab.TotalChunks * slab.ChunkSize
-              slab.Wasted = (slab.Malloced < slab.MemRequested) ? ((slab.TotalChunks - slab.UsedChunks) * slab.ChunkSize) : (slab.Malloced - slab.MemRequested)
+              slab.Wasted = (!slab.MemRequested || slab.Malloced < slab.MemRequested) ? ((slab.TotalChunks - slab.UsedChunks) * slab.ChunkSize) : (slab.Malloced - slab.MemRequested)
             }
             $scope.slabsStats = data.Data
             break
         }
       })
-    }
-
-    $scope.ready = function () {
-      var readyState = $scope.serverStats !== null &&
-            $scope.settingsStats !== null &&
-            $scope.slabsStats !== null
-      return readyState
     }
 
     $scope.update = function () {
@@ -118,7 +111,7 @@ angular.module('gmcadmin.controllers', [])
               slab = data.Data[k]
               slab.Index = parseInt(k, 10)
               slab.Malloced = slab.TotalChunks * slab.ChunkSize
-              slab.Wasted = (slab.Malloced < slab.MemRequested) ? ((slab.TotalChunks - slab.UsedChunks) * slab.ChunkSize) : (slab.Malloced - slab.MemRequested)
+              slab.Wasted = (!slab.MemRequested || slab.Malloced < slab.MemRequested) ? ((slab.TotalChunks - slab.UsedChunks) * slab.ChunkSize) : (slab.Malloced - slab.MemRequested)
             }
             $scope.slabsStats = []
             $scope.slabIndex = 0
@@ -187,9 +180,9 @@ angular.module('gmcadmin.controllers', [])
 
     $scope.memStatsLive = {
       chartType: 'areaspline'
-    , plotOptions: { areaspline: { stacking: 'normal' } }
-    , colors: ['#C84D64', '#4968AB']
-    , dataLabels: ['Wasted', 'Used']
+    , plotOptions: { areaspline: { stacking: null } }
+    , colors: ['#4968AB', '#C84D64']
+    , dataLabels: ['Used', 'Wasted']
     , maxLength: 30
     , unit: ' MB'
     , watch: 'memStatsData'
@@ -295,7 +288,7 @@ angular.module('gmcadmin.controllers', [])
     socketClient.callbacks.message = function (evt, data) {
       NProgress.inc(0.45)
       $scope.$apply(function () {
-        var time = (new Date()).getTime()
+        var time = (new Date()).getTime() / 1000
         switch (data.Cmd) {
           case 'server':
             if ($scope.serverStats) {
@@ -352,12 +345,12 @@ angular.module('gmcadmin.controllers', [])
               slab = data.Data[k]
               slab.Index = parseInt(k, 10)
               slab.Malloced = slab.TotalChunks * slab.ChunkSize
-              slab.Wasted = (slab.Malloced < slab.MemRequested) ? ((slab.TotalChunks - slab.UsedChunks) * slab.ChunkSize) : (slab.Malloced - slab.MemRequested)
+              slab.Wasted = (!slab.MemRequested || slab.Malloced < slab.MemRequested) ? ((slab.TotalChunks - slab.UsedChunks) * slab.ChunkSize) : (slab.Malloced - slab.MemRequested)
               mallocedMem += slab.Malloced
               wastedMem += slab.Wasted
             }
             $scope.slabsStats = data.Data
-            $scope.memStatsData = [ unitResize(wastedMem, 'M'), unitResize(mallocedMem, 'M') ]
+            $scope.memStatsData = [unitResize(wastedMem, 'M'), unitResize(mallocedMem, 'M')]
             break
         }
       })

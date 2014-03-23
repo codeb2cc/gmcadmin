@@ -23,6 +23,11 @@ angular.module('gmcadmin.filters', [
   return function (value, flag) {
     var i = 0
     var base = flag ? flag : 1024
+
+    if (!value) {
+      return '0 ' + units[i]
+    }
+
     for (; i < units.length; i++) {
       if (value < base) { break }
       value /= base
