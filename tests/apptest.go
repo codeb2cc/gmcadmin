@@ -24,7 +24,7 @@ func (t *AppTest) Before() {
 func (t AppTest) TestIndex() {
 	t.Get("/")
 	t.AssertOk()
-	t.AssertContentType("text/html")
+	t.AssertContentType("text/html; charset=utf-8")
 }
 
 func (t AppTest) TestCacheGet() {
@@ -34,7 +34,7 @@ func (t AppTest) TestCacheGet() {
 
 	t.Get("/cache?key=foo")
 	t.AssertOk()
-	t.AssertContentType("application/json")
+	t.AssertContentType("application/json; charset=utf-8")
 
 	var r interface{}
 	err = json.Unmarshal(t.ResponseBody, &r)
@@ -54,7 +54,7 @@ func (t AppTest) TestPreallocate() {
 
 	t.PostForm("/allocate", data)
 	t.AssertOk()
-	t.AssertContentType("application/json")
+	t.AssertContentType("application/json; charset=utf-8")
 
 	var r interface{}
 	err := json.Unmarshal(t.ResponseBody, &r)
