@@ -10,6 +10,7 @@ services:
 install:
     - export GOPATH=$HOME/gopath
     - export PATH=$PATH:$GOPATH/bin
+    - go get -v github.com/codeb2cc/gomemcache/memcache
     - go get -v github.com/robfig/revel/revel
 
 script:
