@@ -35,35 +35,38 @@ module.exports = function(grunt) {
       dev: {
         files: [
           { expand: true, cwd: 'src/', src: '*.{ico,txt}', dest: 'dist/' },
-          { src: 'src/lib/modernizr/modernizr-2.6.2.js', dest: 'dist/js/modernizr.js' },
-          { src: 'src/lib/jquery/jquery.js', dest: 'dist/js/jquery.js' },
-          { src: 'src/lib/angular/angular.js', dest: 'dist/js/angular.js' },
-          { src: 'src/lib/angular/angular-route.js', dest: 'dist/js/angular-route.js' },
-          { src: 'src/lib/highcharts/highcharts.js', dest: 'dist/js/highcharts.js' },
-          { expand: true, cwd: 'src/lib/bootstrap/', src: ['fonts/**'], dest: 'dist/' }
+          { src: 'bower_components/modernizr/modernizr.js', dest: 'dist/js/modernizr.js' },
+          { src: 'bower_components/jquery/jquery.js', dest: 'dist/js/jquery.js' },
+          { src: 'bower_components/angular/angular.js', dest: 'dist/js/angular.js' },
+          { src: 'bower_components/angular-route/angular-route.js', dest: 'dist/js/angular-route.js' },
+          { src: 'bower_components/highcharts/highcharts.src.js', dest: 'dist/js/highcharts.js' },
+          { expand: true, cwd: 'bower_components/bootstrap/dist/', src: ['fonts/**'], dest: 'dist/' }
         ]
       },
       release: {
         files: [
           { expand: true, cwd: 'src/', src: '*.{ico,txt}', dest: 'dist/' },
-          { src: 'src/lib/modernizr/modernizr-2.6.2.min.js', dest: 'dist/js/modernizr.js' },
-          { src: 'src/lib/jquery/jquery.min.js', dest: 'dist/js/jquery.js' },
-          { src: 'src/lib/jquery/jquery.min.map', dest: 'dist/js/jquery.min.map' },
-          { src: 'src/lib/angular/angular.min.js', dest: 'dist/js/angular.js' },
-          { src: 'src/lib/angular/angular.min.js.map', dest: 'dist/js/angular.min.js.map' },
-          { src: 'src/lib/angular/angular-route.min.js', dest: 'dist/js/angular-route.js' },
-          { src: 'src/lib/angular/angular-route.min.map', dest: 'dist/js/angular-route.min.js.map' },
-          { src: 'src/lib/highcharts/highcharts.min.js', dest: 'dist/js/highcharts.js' },
-          { expand: true, cwd: 'src/lib/bootstrap/', src: ['fonts/**'], dest: 'dist/' }
+          { src: 'bower_components/modernizr/modernizr.js', dest: 'dist/js/modernizr.js' },
+          { src: 'bower_components/jquery/jquery.min.js', dest: 'dist/js/jquery.js' },
+          { src: 'bower_components/jquery/jquery.min.map', dest: 'dist/js/jquery.min.map' },
+          { src: 'bower_components/angular/angular.min.js', dest: 'dist/js/angular.js' },
+          { src: 'bower_components/angular/angular.min.js.map', dest: 'dist/js/angular.min.js.map' },
+          { src: 'bower_components/angular-route/angular-route.min.js', dest: 'dist/js/angular-route.js' },
+          { src: 'bower_components/angular-route/angular-route.min.map', dest: 'dist/js/angular-route.min.js.map' },
+          { src: 'bower_components/highcharts/highcharts.js', dest: 'dist/js/highcharts.js' },
+          { expand: true, cwd: 'bower_components/bootstrap/dist/', src: ['fonts/**'], dest: 'dist/' }
         ]
       }
     },
 
     less: {
+      options: {
+        paths: ['bower_components', ],
+      },
       dev: {
         options: {},
         files: {
-          'dist/css/bootstrap.css': ['src/lib/bootstrap/less/bootstrap.less'],
+          'dist/css/bootstrap.css': ['src/css/bootstrap/bootstrap.less'],
           'dist/css/app.css': ['src/css/app.less']
         }
       },
@@ -73,7 +76,7 @@ module.exports = function(grunt) {
           report: 'min'
         },
         files: {
-          'dist/css/bootstrap.css': ['src/lib/bootstrap/less/bootstrap.less'],
+          'dist/css/bootstrap.css': ['src/css/bootstrap/bootstrap.less'],
           'dist/css/app.css': ['src/css/app.less']
         }
       }
@@ -91,7 +94,7 @@ module.exports = function(grunt) {
             'src/lib/bootstrap/js/button.js'
           ],
           'dist/js/app.js': [
-            'src/lib/plugins.js',
+            'src/js/plugins.js',
             'src/js/services.js',
             'src/js/filters.js',
             'src/js/directives.js',
@@ -139,7 +142,10 @@ module.exports = function(grunt) {
         src: 'Gruntfile.js'
       },
       app: {
-        src: 'src/js/*.js'
+        src: 'src/js/*.js',
+        options: {
+          ignores: 'src/js/plugins.js'
+        }
       }
     },
 

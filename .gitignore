@@ -4,4 +4,5 @@ test-results/
 tmp/
 routes/
 public/node_modules
+public/bower_components
 public/dist
