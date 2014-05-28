@@ -3,7 +3,7 @@
     <div class="widget widget-table">
       <div class="widget-header">
         <i class="glyphicon glyphicon-info-sign"></i>
-        <h3>Slab #<span ng-bind="slabIndex | default:'?'"></span> Info</h3>
+        <h3>Slab #<span ng-bind="slabId"></span> Info</h3>
       </div>
       <div class="widget-content">
         <table class="table table-bordered table-striped">
@@ -26,40 +26,40 @@
             </tr>
             <tr>
               <td style="width: 25%;" title="Number of items presently stored in this class. Expired items are not automatically excluded">Items</td>
-              <td style="width: 25%;" ng-bind="itemsStats[slabIndex].Number | default:0"></td>
+              <td style="width: 25%;" ng-bind="itemsStats[slabId].Number | default:0"></td>
               <td style="width: 25%;" title="Total number of pages allocated to the slab class">Pages</td>
               <td style="width: 25%;" ng-bind="slabsStats[slabIndex].TotalPages | default:0"></td>
             </tr>
             <tr>
               <td title="Age of the oldest item in the LRU">Oldest Item</td>
-              <td colspan="3" ng-bind="itemsStats[slabIndex].Age | default:0 | second2time"></td>
+              <td colspan="3" ng-bind="itemsStats[slabId].Age | default:0 | second2time"></td>
             </tr>
             <tr>
               <td title="Number of times an item had to be evicted from the LRU before it expired">Evicted</td>
-              <td colspan="3" ng-bind="itemsStats[slabIndex].Evicted | default:0"></td>
+              <td colspan="3" ng-bind="itemsStats[slabId].Evicted | default:0"></td>
             </tr>
             <tr>
               <td title="Number of times an item which had an explicit expire time set had to be evicted from the LRU before it expired">Evicted Nonzero</td>
-              <td colspan="3" ng-bind="itemsStats[slabIndex].EvictedNonzero | default:0"></td>
+              <td colspan="3" ng-bind="itemsStats[slabId].EvictedNonzero | default:0"></td>
             </tr>
             <tr>
               <td title="Seconds since the last access for the most recent item evicted from this class. Use this to judge how recently active your evicted data is">Evicted Time</td>
-              <td colspan="3" ng-bind="itemsStats[slabIndex].EvictedTime | default:0"></td>
+              <td colspan="3" ng-bind="itemsStats[slabId].EvictedTime | default:0"></td>
             </tr>
             <tr>
               <td title="Number of times an entry was stored using memory from an expired entry">Reclaimed</td>
-              <td colspan="3" ng-bind="itemsStats[slabIndex].Reclaimed | default:0"></td>
+              <td colspan="3" ng-bind="itemsStats[slabId].Reclaimed | default:0"></td>
             </tr>
             <tr>
               <td colspan="2" title="Number of expired items reclaimed/evicted from the LRU which were never touched after being set">Unfetched Expired/Evicted</td>
               <td colspan="2">
-                <span ng-bind="itemsStats[slabIndex].ExpiredUnfetched | default:0"></span> / <span ng-bind="itemsStats[slabIndex].EvictedUnfetched | default:0"></span>
+                <span ng-bind="itemsStats[slabId].ExpiredUnfetched | default:0"></span> / <span ng-bind="itemsStats[slabId].EvictedUnfetched | default:0"></span>
               </td>
             </tr>
             <tr>
               <td colspan="2" title="OOM: Number of times the underlying slab class was unable to store a new item. TR: Number of times we self-healed a slab with a refcount leak">Warning OOM/TR</td>
               <td colspan="2">
-                <span ng-bind="itemsStats[slabIndex].Outofmemory | default:0"></span> / <span ng-bind="itemsStats[slabIndex].Tailrepairs | default:0"></span>
+                <span ng-bind="itemsStats[slabId].Outofmemory | default:0"></span> / <span ng-bind="itemsStats[slabId].Tailrepairs | default:0"></span>
               </td>
             </tr>
           </tbody>
@@ -71,7 +71,7 @@
     <div class="widget widget-chart">
       <div class="widget-header">
         <span class="glyphicon glyphicon-stats"></span>
-        <h3>Slab #<span ng-bind="slabIndex | default:'?'"></span> Requests &amp; Memory</h3>
+        <h3>Slab #<span ng-bind="slabId"></span> Requests &amp; Memory</h3>
       </div>
       <div class="widget-content">
         <div class="chart-container" ng-model="slabsStats" chart-stats-slab></div>
@@ -98,8 +98,8 @@
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="stats in slabsStats | orderBy:$parent.slabOrder:$parent.slabReverse" ng-class="$index == slabIndex ? 'active' : ''" ng-click="activeSlab($event, $index)">
-                <td ng-bind="stats.Index"></td>
+              <tr ng-repeat="stats in slabsStats | orderBy:$parent.slabOrder:$parent.slabReverse" ng-class="slabIndex == stats.Index ? 'active' : ''" ng-click="activeSlab($event, stats.Index)">
+                <td ng-bind="stats.Id"></td>
                 <td ng-bind="stats.ChunkSize | unitResize" title="{{ stats.ChunkSize }}"></td>
                 <td ng-bind="stats.UsedChunks"></td>
                 <td ng-bind="stats.FreeChunks"></td>

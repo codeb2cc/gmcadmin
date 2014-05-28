@@ -81,9 +81,10 @@ angular.module('gmcadmin.controllers', [])
     $scope.slabsStats = null
     $scope.itemsStats = null
     $scope.slabIndex = null
+    $scope.slabId = null
 
     $scope.slabHeaders = [
-      ['Index', '#']
+      ['Id', '#']
     , ['ChunkSize', 'Chunk Size']
     , ['UsedChunks', 'Used Chunks']
     , ['FreeChunks', 'Free Chunks']
@@ -93,7 +94,7 @@ angular.module('gmcadmin.controllers', [])
     , ['MemRequested', 'Requested']
     ]
 
-    $scope.slabOrder = 'Index'
+    $scope.slabOrder = 'Id'
     $scope.slabReverse = false
 
     if (!Modernizr.websockets) {
@@ -109,16 +110,18 @@ angular.module('gmcadmin.controllers', [])
             var slab = null
             for (var k in data.Data) {
               slab = data.Data[k]
-              slab.Index = parseInt(k, 10)
+              slab.Id = parseInt(k, 10)
               slab.Malloced = slab.TotalChunks * slab.ChunkSize
               slab.Wasted = (!slab.MemRequested || slab.Malloced < slab.MemRequested) ? ((slab.TotalChunks - slab.UsedChunks) * slab.ChunkSize) : (slab.Malloced - slab.MemRequested)
             }
             $scope.slabsStats = []
-            $scope.slabIndex = 0
             angular.forEach(data.Data, function (val, key) {
               // Convert to array for sorting
+              val.Index = $scope.slabsStats.length
               $scope.slabsStats.push(val)
             })
+            $scope.slabIndex = 0
+            $scope.slabId = $scope.slabsStats[0].Id
             break
           case 'items':
             $scope.itemsStats = data.Data
@@ -149,6 +152,7 @@ angular.module('gmcadmin.controllers', [])
 
     $scope.activeSlab = function (evt, index) {
       $scope.slabIndex = index
+      $scope.slabId = $scope.slabsStats[index].Id
     }
 
     $scope.$on('$routeChangeStart', function () {
