@@ -21,7 +21,7 @@ module.exports = function(grunt) {
       },
       less: {
         files: ['src/css/*.less'],
-        tasks: ['recess:dev']
+        tasks: ['less:dev']
       },
       javascript: {
         files: ['src/js/*.js'],
@@ -59,19 +59,19 @@ module.exports = function(grunt) {
       }
     },
 
-    recess: {
-      options: {
-        compile: true
-      },
+    less: {
       dev: {
-        options: { compress: false },
+        options: {},
         files: {
           'dist/css/bootstrap.css': ['src/lib/bootstrap/less/bootstrap.less'],
           'dist/css/app.css': ['src/css/app.less']
         }
       },
       release: {
-        options: { compress: true },
+        options: {
+          cleancss: true,
+          report: 'min'
+        },
         files: {
           'dist/css/bootstrap.css': ['src/lib/bootstrap/less/bootstrap.less'],
           'dist/css/app.css': ['src/css/app.less']
@@ -162,10 +162,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-connect');
-  grunt.loadNpmTasks('grunt-recess');
+  grunt.loadNpmTasks('grunt-contrib-less');
 
   // Default task.
-  grunt.registerTask('default', ['jshint', 'clean', 'copy:dev', 'recess:dev', 'concat']);
-  grunt.registerTask('release', ['jshint', 'clean', 'copy:release', 'recess:release', 'concat', 'uglify']);
+  grunt.registerTask('default', ['jshint', 'clean', 'copy:dev', 'less:dev', 'concat']);
+  grunt.registerTask('release', ['jshint', 'clean', 'copy:release', 'less:release', 'concat', 'uglify']);
 
 };
