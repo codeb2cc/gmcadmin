@@ -92,3 +92,12 @@ angular.module('gmcadmin.services', [])
 
   return client
 }])
+.service('configManager', function () {
+  var config = {
+    server: ''
+  , serverIndex: 0
+  }
+
+  return config
+})
+

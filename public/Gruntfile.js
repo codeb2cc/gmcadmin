@@ -90,8 +90,9 @@ module.exports = function(grunt) {
       app: {
         files: {
           'dist/js/bootstrap.js': [
-            'src/lib/bootstrap/js/transition.js',
-            'src/lib/bootstrap/js/button.js'
+            'bower_components/bootstrap/js/transition.js',
+            'bower_components/bootstrap/js/dropdown.js',
+            'bower_components/bootstrap/js/button.js'
           ],
           'dist/js/app.js': [
             'src/js/plugins.js',

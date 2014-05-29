@@ -41,14 +41,21 @@ func parseItem(i *memcache.Item) *CacheItem {
 }
 
 func (c App) Index() revel.Result {
+	c.RenderArgs["serverData"] = mcServers
 	return c.RenderTemplate("index.html")
 }
 
 func (c App) GetCache() revel.Result {
-	var cacheKey string
+	var server, cacheKey string
+	c.Params.Bind(&server, "server")
 	c.Params.Bind(&cacheKey, "key")
 
 	response := Response{"error", nil}
+	mcClient, ok := mcClients[server]
+	if !ok {
+		return c.RenderJson(response)
+	}
+
 	if cacheKey != "" {
 		item, err := mcClient.Get(cacheKey)
 		if err == nil {
@@ -73,24 +80,26 @@ type AllocationResult struct {
 }
 
 func (c App) AllocateSlab() revel.Result {
+	var server string
 	var dataSize, memSize uint64
+	c.Params.Bind(&server, "server")
 	c.Params.Bind(&dataSize, "size")
 	c.Params.Bind(&memSize, "mem")
 
 	response := Response{"error", nil}
-	if (dataSize == 0 || memSize == 0) {
+	mcClient, ok := mcClients[server]
+	if (!ok || dataSize == 0 || memSize == 0) {
 		return c.RenderJson(response)
 	}
 
 	// Validate execution
-	addr, err := net.ResolveTCPAddr("tcp", mcServer)
+	addr, err := net.ResolveTCPAddr("tcp", server)
 	stats, err := mcClient.StatsSettings(addr)
 	if err != nil {
 		revel.WARN.Print(err)
 		return c.RenderJson(response)
 	}
 	if dataSize > stats.ItemSizeMax || memSize > stats.Maxbytes {
-		response.Status = "invalid"
 		return c.RenderJson(response)
 	}
 

@@ -30,6 +30,16 @@
             <a href="/#/tool"><i class="glyphicon glyphicon-wrench"></i><span>Tool</span></a>
           </li>
         </ul>
+        <ul class="subnav">
+          <li class="dropdown active">
+            <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="glyphicon glyphicon-cloud"></i><span ng-bind="activeServer"></span><b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+              <li ng-repeat="server in servers"><a href="" ng-click="changeServer($index)" ng-bind="server"></a></li>
+            </ul>
+          </li>
+        </ul>
       </div>
     </div>
   </div>

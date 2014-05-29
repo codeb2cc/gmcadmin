@@ -6,6 +6,7 @@ import (
 	"github.com/robfig/revel"
 	"net"
 	"strconv"
+	"strings"
 )
 
 type WebSocket struct {
@@ -26,12 +27,9 @@ var (
 )
 
 func (c WebSocket) Socket(host string, ws *websocket.Conn) revel.Result {
-	addr, err := net.ResolveTCPAddr("tcp", mcServer)
-
-	if err != nil {
-		revel.ERROR.Printf("Cannot resolve memcached address %s", mcServer)
-		return nil
-	}
+	mcServer := mcServers[0]
+	mcClient := mcClients[mcServer]
+	addr, _ := net.ResolveTCPAddr("tcp", mcServer)
 
 	// Stuff websocket events into a channel
 	message := make(chan string)
@@ -54,8 +52,25 @@ func (c WebSocket) Socket(host string, ws *websocket.Conn) revel.Result {
 			return nil
 		}
 
+		msgData := strings.SplitN(msg, "|", 2)
 		response := WebSocketMessage{"error", "", nil}
-		switch msg {
+
+		if len(msgData) == 2 {
+			mcIndex, err := strconv.Atoi(msgData[1])
+			if err != nil {
+				return nil
+			} else if 0 <= mcIndex && mcIndex < len(mcServers) {
+				mcServer = mcServers[mcIndex]
+				mcClient = mcClients[mcServer]
+				addr, _ = net.ResolveTCPAddr("tcp", mcServer)
+			} else {
+				return nil
+			}
+		} else {
+			return nil
+		}
+
+		switch msgData[0] {
 		case cmdServerStats:
 			response.Cmd = cmdServerStats
 			if stats, err := mcClient.Stats(addr); err == nil {

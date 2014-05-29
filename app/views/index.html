@@ -21,6 +21,9 @@
       <hr>
       {%template "footer.html" .%}
     </div>
+    <script>
+      window._S = {% .serverData %}
+    </script>
 
     <script type="text/ng-template" id="/tpl/server.html">
 {%template "templates/server.html" .%}

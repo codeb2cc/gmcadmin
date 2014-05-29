@@ -56,7 +56,11 @@ body {
     border-bottom: 1px solid #000;
   }
 
-  .mainnav {
+  .subnav {
+    float: right;
+  }
+
+  .mainnav, .subnav {
     display: inline-block;
     height: 80px;
     padding: 0;
@@ -83,10 +87,10 @@ body {
         font-weight: bold;
         color: #636363;
         text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+        text-decoration: none;
 
         &:hover {
           color: #888;
-          text-decoration: none;
         }
 
         > i {
@@ -109,6 +113,58 @@ body {
       &.active > a {
         background: #333333;
         color: #ff9900;
+      }
+    }
+  }
+
+  .dropdown {
+    > .dropdown-menu {
+      top: 97%;
+      text-align: left;
+      -webkit-border-top-left-radius: 0;
+      -webkit-border-top-right-radius: 0;
+      -moz-border-radius-topleft: 0;
+      -moz-border-radius-topright: 0;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+
+      a {
+        font-size: 12px;
+      }
+
+      &::before, &::after {
+        content: '';
+        display: inline-block;
+        border-left: 7px solid transparent;
+        border-right: 7px solid transparent;
+        border-bottom: 7px solid #CCC;
+        border-bottom-color: rgba(0, 0, 0, 0.2);
+        position: absolute;
+        top: -7px;
+        left: 9px;
+      }
+
+      &::after {
+        border-left-width: 6px;
+        border-right-width: 6px;
+        border-bottom-width: 6px;
+        border-bottom-color: #fff;
+        top: -6px;
+        left: 10px;
+      }
+
+      > li {
+        > a {
+          padding: 5px 9px;
+          margin: 0 6px;
+          font-size: 12px;
+
+          &:hover, &:focus {
+              color: #FFF;
+              background-color: #ff9900;
+              text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+          }
+        }
       }
     }
   }

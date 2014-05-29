@@ -1,18 +1,22 @@
 package controllers
 
 import (
+	"strings"
 	"github.com/codeb2cc/gomemcache/memcache"
 	"github.com/robfig/revel"
 )
 
 var (
-	mcServer string
-	mcClient *memcache.Client
+	mcServers []string
+	mcClients map[string]*memcache.Client
 )
 
 func init() {
 	revel.OnAppStart(func() {
-		mcServer = revel.Config.StringDefault("memcached", "127.0.0.1:11211")
-		mcClient = memcache.New(mcServer)
+		mcServers = strings.Split(revel.Config.StringDefault("memcached", "127.0.0.1:11211"), "|")
+		mcClients = make(map[string]*memcache.Client)
+		for _, server := range mcServers {
+			mcClients[server] = memcache.New(server)
+		}
 	})
 }
