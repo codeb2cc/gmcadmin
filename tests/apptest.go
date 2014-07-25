@@ -1,11 +1,11 @@
 package tests
 
 import (
-	"fmt"
 	"code.google.com/p/go.net/websocket"
 	"encoding/json"
+	"fmt"
 	"github.com/codeb2cc/gomemcache/memcache"
-	"github.com/robfig/revel"
+	"github.com/revel/revel"
 )
 
 var (
@@ -50,8 +50,8 @@ func (t AppTest) TestCacheGet() {
 func (t AppTest) TestPreallocate() {
 	data := map[string][]string{
 		"server": []string{mcServer},
-		"size": []string{"1024"},
-		"mem": []string{"1000000"},
+		"size":   []string{"1024"},
+		"mem":    []string{"1000000"},
 	}
 
 	t.PostForm("/allocate", data)

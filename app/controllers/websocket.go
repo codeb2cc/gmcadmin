@@ -3,7 +3,7 @@ package controllers
 import (
 	"code.google.com/p/go.net/websocket"
 	"encoding/json"
-	"github.com/robfig/revel"
+	"github.com/revel/revel"
 	"net"
 	"strconv"
 	"strings"

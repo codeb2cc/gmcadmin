@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"strings"
 	"github.com/codeb2cc/gomemcache/memcache"
-	"github.com/robfig/revel"
+	"github.com/revel/revel"
+	"strings"
 )
 
 var (
