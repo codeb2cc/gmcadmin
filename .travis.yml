@@ -2,6 +2,7 @@ language: go
 
 go:
     - 1.1
+    - 1.2
     - tip
 
 services:
@@ -11,7 +12,9 @@ install:
     - export GOPATH=$HOME/gopath
     - export PATH=$PATH:$GOPATH/bin
     - go get -v github.com/codeb2cc/gomemcache/memcache
-    - go get -v github.com/robfig/revel/revel
+    - go get -v github.com/revel/revel
+    - go get -v github.com/revel/cmd/revel
 
 script:
     - revel test github.com/codeb2cc/gmcadmin
+
