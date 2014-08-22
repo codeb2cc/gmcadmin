@@ -4,6 +4,7 @@ import (
 	"github.com/codeb2cc/gomemcache/memcache"
 	"github.com/revel/revel"
 	"strings"
+	"time"
 )
 
 var (
@@ -17,6 +18,7 @@ func init() {
 		mcClients = make(map[string]*memcache.Client)
 		for _, server := range mcServers {
 			mcClients[server] = memcache.New(server)
+			mcClients[server].Timeout = time.Duration(1000) * time.Millisecond
 		}
 	})
 }
