@@ -205,7 +205,7 @@ angular.module('gmcadmin.controllers', [])
       chartType: 'areaspline'
     , plotOptions: { areaspline: { stacking: null } }
     , colors: ['#4968AB', '#C84D64']
-    , dataLabels: ['Used', 'Wasted']
+    , dataLabels: ['Malloced', 'Wasted']
     , maxLength: 30
     , unit: ' MB'
     , watch: 'memStatsData'
@@ -373,7 +373,7 @@ angular.module('gmcadmin.controllers', [])
               wastedMem += slab.Wasted
             }
             $scope.slabsStats = data.Data
-            $scope.memStatsData = [unitResize(wastedMem, 'M'), unitResize(mallocedMem, 'M')]
+            $scope.memStatsData = [unitResize(mallocedMem, 'M'), unitResize(wastedMem, 'M')]
             break
         }
       })
