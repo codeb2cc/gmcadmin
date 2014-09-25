@@ -19,6 +19,7 @@ Installing
 `gmcadmin` uses [Revel](http://robfig.github.io/revel/) framework and a forked version of `gomemcache`:
 
     go get -u github.com/revel/revel
+    go get -u github.com/revel/cmd/revel
     go get -u github.com/codeb2cc/gomemcache/memcache
 
 Use [Bower](http://bower.io) and  [Grunt](http://gruntjs.com/) to build the web app. Remember to modify the websocket url and other configs in `public/src/js/app.js` before building.
